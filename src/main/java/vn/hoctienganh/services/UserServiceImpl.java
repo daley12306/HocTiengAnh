@@ -1,5 +1,5 @@
 package vn.hoctienganh.services;
 
-public interface UserServiceImpl extends UserService{
+public class UserServiceImpl implements UserService{
 
 }
