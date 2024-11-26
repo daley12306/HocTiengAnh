@@ -5,11 +5,13 @@ import java.util.List;
 import jakarta.persistence.*;
 import lombok.*;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
+@Data
 @Entity
 @Table(name = "users")
-@Inheritance(strategy = InheritanceType.JOINED) // Because Student and Admin inherit this class
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
