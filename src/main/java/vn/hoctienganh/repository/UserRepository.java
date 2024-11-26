@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import vn.hoctienganh.models.UserModel;
 
-public interface UserRepository  { //extends JpaRepository<UserModel, Long>
-//	Optional<UserModel> findByName(String name);
-//	Page<UserModel> findByNameContaining(String name, Pageable pageable);
+public interface UserRepository extends JpaRepository<UserModel, Long> { 
+	Optional<UserModel> findByName(String name);
+	Page<UserModel> findByNameContaining(String name, Pageable pageable);
 }
