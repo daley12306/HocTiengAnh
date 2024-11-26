@@ -1,23 +1,26 @@
 package vn.hoctienganh.models;
 
+import java.io.Serializable;
+
 import jakarta.persistence.*;
 import lombok.*;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Getter
 @Setter
-@Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@Table(name = "users")
-public class UserModel {
+public class UserModel implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Tự động tăng ID
 	private Long id;
 	private String username;
 	private String password;
-	private String firstName;
-	private String name;
+	private String fullName;
 	private String email;
-	private String phone;
-	
+	private String address;
+	private String phoneNumber;
+	private boolean isAdmin;
 }
