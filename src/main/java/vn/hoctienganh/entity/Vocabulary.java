@@ -18,6 +18,7 @@ public class Vocabulary {
     private String example;
     private String audio;
     private String image;
+    private int memLevel;
 
     @ManyToOne
     @JoinColumn(name = "curriculum_id")

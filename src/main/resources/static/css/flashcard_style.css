@@ -1,0 +1,107 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
+/* body
+{
+    background: black;
+} */
+.card-container {
+	font-family: 'Open Sans', sans serif;
+	font-size: 120px;
+	font-weight: bold;
+	width: 400px;
+	height: 250px;
+	margin: 80px auto;
+	border-radius: 10px;
+	perspective: 1400px;
+}
+
+.card {
+	position: relative;
+	height: 100%;
+	border-radius: 10px;
+	width: 100%;
+	transform-style: preserve-3d;
+}
+
+.front, .back {
+	display: flex;
+	width: 100%;
+	height: 100%;
+	border-radius: 10px;
+	justify-content: center;
+	align-items: center;
+	backface-visibility: hidden;
+}
+
+.front {
+	color: #fff;
+	background: pink;
+}
+
+.back {
+	position: absolute;
+	top: 0;
+	left: 0;
+	transform: rotateY(180deg);
+	color: pink;
+	background: #fff;
+}
+
+/* Header styles */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: pink; 
+    padding: 10px 20px;
+    height: 60px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+/* Logo styles */
+.logo img {
+    height: 40px;
+    width: auto;
+}
+
+/* Progress Tracker */
+.progress-tracker {
+    text-align: center;
+    color: #fff; 
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Exit Button */
+.exit-button {
+    background-color: #f44336; /* Màu đỏ */
+    color: #fff;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.exit-button:hover {
+    background-color: #d32f2f; /* Tối màu hơn khi hover */
+}
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        height: auto;
+        padding: 10px;
+    }
+
+    .logo img {
+        margin-bottom: 10px;
+    }
+
+    .progress-tracker {
+        margin-bottom: 10px;
+    }
+}

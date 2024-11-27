@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	
 <head>
 <title>Học tiếng anh</title>
 <link
@@ -16,7 +17,7 @@
 
 <body>
 	<header>
-		<div th:replace="~{fragments/header::header}"></div>
+		<div th:replace="~{/user/fragments/header::header}"></div>
 	</header>
 
 	<main class="container">
@@ -26,7 +27,7 @@
 	</main>
 
 	<footer>
-		<div th:replace="~{fragments/footer::footer}"></div>
+		<div th:replace="~{/user/fragments/footer::footer}"></div>
 	</footer>
 
 </body>

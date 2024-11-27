@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/user/layout.html}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flash Card</title>
+<link rel="stylesheet" href="/css/flashcard_style.css">
+
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js">
+	
+</script>
+</head>
+
+<body layout:fragment="content">
+
+	<!-- Header -->
+    <header class="header">
+        <!-- Logo -->
+        <a href="/home" class="logo">
+            <img src="/img/logo.png" alt="FlashLearn Logo">
+        </a>
+
+        <!-- Progress Tracker -->
+        <div class="progress-tracker">
+            <h3>1 / 11</h3>
+        </div>
+
+        <!-- Exit Button -->
+        <a href="/home" class="exit-button">
+            Exit
+        </a>
+    </header>
+
+	<div class="card-container">
+		<div class="card">
+			<div class="front">A</div>
+			<div class="back">B</div>
+		</div>
+	</div>
+	<script src="/js/flashcard_script.js"></script>
+
+
+
+</body>
+</html>
