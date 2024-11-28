@@ -25,7 +25,6 @@ public class FeedbackController {
         if (result.hasErrors()) {
             return new ResponseEntity<>("Invalid feedback data", HttpStatus.BAD_REQUEST);
         }
-
         System.out.println(feedback);
         feedbackService.save(feedback);
         return new ResponseEntity<>("Feedback saved successfully", HttpStatus.OK);

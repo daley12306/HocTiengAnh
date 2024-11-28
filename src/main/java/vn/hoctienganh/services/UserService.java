@@ -2,7 +2,8 @@ package vn.hoctienganh.services;
 
 import java.util.List;
 
-import vn.hoctienganh.entity.*;
+import vn.hoctienganh.entity.User;
+
 
 public interface UserService {
 	// Lấy danh sách học viên
