@@ -1,14 +1,18 @@
 package vn.hoctienganh.repository;
 
-import java.util.Optional;
+/*import java.util.Optional;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Pageable;*/
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import vn.hoctienganh.models.UserModel;
+import vn.hoctienganh.entity.User;
 
-public interface UserRepository extends JpaRepository<UserModel, Long> { 
-	Optional<UserModel> findByName(String name);
-	Page<UserModel> findByNameContaining(String name, Pageable pageable);
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> { 
+	/*
+	 * Optional<User> findByUserName(String username); Page<User>
+	 * findByNameContaining(String username, Pageable pageable);
+	 */
 }
