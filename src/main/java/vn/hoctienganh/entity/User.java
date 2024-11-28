@@ -29,9 +29,15 @@ public class User {
     @Column(nullable = false)
     private boolean isAdmin;
     
+    private Boolean isVerified = false; // Mặc định là false, khi chưa xác thực
+    
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<StudyRecord> studyRecords;
 
+    // Phương thức kiểm tra vai trò
+    public boolean isAdmin() {
+        return this.isAdmin;
+    }
     public void login() {}
     public void register() {}
     public void resetPassword() {}

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Đăng nhập</title>
+<style>
+body {
+	font-family: 'Din Round', sans-serif;
+	background-color: #fff;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	min-height: 100vh;
+}
+
+.left-side {
+	flex: 1;
+	background-size: cover;
+	background-position: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	background-color: #F2BDD1;
+	animation: slideInLeft 1s ease-out;
+}
+
+.left-side h1 {
+	color: white;
+	font-size: 48px;
+	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+	margin-bottom: 1rem;
+	animation: fadeIn 1.5s ease-in-out;
+}
+
+.left-side img {
+	width: 80px;
+	animation: bounce 2s infinite;
+}
+
+.right-side {
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 2rem;
+	animation: slideInRight 1s ease-out;
+}
+
+.login-container {
+	background-color: #fff;
+	padding: 2rem;
+	width: 100%;
+	max-width: 400px;
+}
+
+.logo {
+	text-align: center;
+	margin-bottom: 2rem;
+}
+
+.logo img {
+	width: 150px;
+}
+
+h1 {
+	color: #3c3c3c;
+	text-align: center;
+	font-size: 24px;
+	margin-bottom: 2rem;
+}
+
+.form-group {
+	margin-bottom: 1.5rem;
+}
+
+input {
+	width: 100%;
+	padding: 12px;
+	border: 2px solid #e5e5e5;
+	border-radius: 12px;
+	font-size: 16px;
+	box-sizing: border-box;
+}
+
+input:focus {
+	border-color: #ff4b75;
+	outline: none;
+}
+
+.login-btn {
+	width: 100%;
+	padding: 12px;
+	background-color: #ff4b75;
+	color: white;
+	border: none;
+	border-radius: 12px;
+	font-size: 16px;
+	font-weight: bold;
+	cursor: pointer;
+	box-shadow: 0 4px 0 #d63d61;
+	transition: all 0.1s ease;
+}
+
+.login-btn:hover {
+	background-color: #ff6b8e;
+}
+
+.login-btn:active {
+	transform: translateY(2px);
+	box-shadow: 0 2px 0 #d63d61;
+}
+
+.social-login {
+	margin-top: 2rem;
+	text-align: center;
+}
+
+.social-btn {
+	width: 100%;
+	padding: 12px;
+	margin-bottom: 1rem;
+	border: 2px solid #e5e5e5;
+	border-radius: 12px;
+	background-color: white;
+	font-size: 16px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.social-btn img {
+	width: 20px;
+	margin-right: 10px;
+}
+
+.signup-link {
+	text-align: center;
+	margin-top: 1.5rem;
+}
+
+.signup-link a {
+	color: #ff4b75;
+	text-decoration: none;
+}
+
+.forgot-password-link {
+	text-align: right;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
+
+.forgot-password-link a {
+	color: #ff4b75;
+	text-decoration: none;
+}
+
+@keyframes slideInLeft {
+	from {
+		transform: translateX(-100%);
+		opacity: 0;
+	}
+	to {
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+
+@keyframes slideInRight {
+	from {
+		transform: translateX(100%);
+		opacity: 0;
+	}
+	to {
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes bounce {
+	0%, 20%, 50%, 80%, 100% {
+		transform: translateY(0);
+	}
+	40% {
+		transform: translateY(-10px);
+	}
+	60% {
+		transform: translateY(-5px);
+	}
+}
+</style>
+</head>
+<body>
+	<div class="left-side">
+		<h1>CAPIBARALINGO</h1>
+		<img src="/img/logo.png" alt="Logo">
+	</div>
+	<div class="right-side">
+		<div class="login-container">
+			<div class="logo">
+				<img src="/img/logo.png" alt="Logo">
+			</div>
+
+			<h1>ĐĂNG NHẬP</h1>
+
+			<div th:if="${error}" style="color:red;" class="error-message">
+				<p th:text="${error}"></p>
+			</div>
+
+			<form th:action="@{/login}" method="post">
+				<div class="form-group">
+					<input type="text" name="username" placeholder="Tên đăng nhập"
+						required oninvalid="this.setCustomValidity('Thông tin này là bắt buộc')" oninput="this.setCustomValidity('')">
+				</div>
+
+				<div class="form-group">
+					<input type="password" name="password" placeholder="Mật khẩu"
+						required oninvalid="this.setCustomValidity('Thông tin này là bắt buộc')" oninput="this.setCustomValidity('')">
+				</div>
+
+				<div class="forgot-password-link">
+					<a href="/forgot-password">Quên mật khẩu?</a>
+				</div>
+				<button type="submit" class="login-btn">ĐĂNG NHẬP</button>
+			</form>
+
+			<div class="signup-link">
+				Chưa có tài khoản? <a href="/register">Đăng ký ngay</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
