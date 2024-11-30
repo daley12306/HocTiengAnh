@@ -1,10 +1,13 @@
 package vn.hoctienganh.entity;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.*;
 
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "vocabulary")
 public class Vocabulary {
@@ -13,17 +16,21 @@ public class Vocabulary {
     private Integer id;
 
     private String word;
-    private String definition;
+    @Column(name = "pronunciation", columnDefinition = "NVARCHAR(MAX) COLLATE Vietnamese_CI_AS")
     private String pronunciation;
+
+    @Column(name = "definition", columnDefinition = "NVARCHAR(MAX) COLLATE Vietnamese_CI_AS")
+    private String definition;
     private String example;
     private String audio;
     private String image;
-    private int memLevel;
-
+    
     @ManyToOne
     @JoinColumn(name = "curriculum_id")
     private Curriculum curriculum;
-
+    
+    @OneToMany(mappedBy = "vocabulary", cascade = CascadeType.ALL)
+    private List<RememberLevel> rememberLevels;
     // Getters and Setters
 }
 

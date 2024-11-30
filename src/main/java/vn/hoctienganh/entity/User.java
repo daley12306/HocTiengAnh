@@ -32,12 +32,8 @@ public class User {
     @Column(nullable = false)
     private boolean isAdmin;
     
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<StudyRecord> studyRecords;
-
-    public void login() {}
-    public void register() {}
-    public void resetPassword() {}
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private StudyRecord studyRecords;
 
     // Getters and Setters
 }
