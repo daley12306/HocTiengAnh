@@ -9,7 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Response {
+public class Response implements java.io.Serializable {
+	private static final long serialVersionUID = 1L;
     private String message;
 	private int code;
 	private Object Data;

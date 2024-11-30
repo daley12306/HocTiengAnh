@@ -1,5 +1,6 @@
 package vn.hoctienganh.services;
 
+import java.util.Optional;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class AuthServiceImpl implements IAuthService {
 
 	@Override
 	public Response login(LoginRequest request) {
-		var user = userRepository.findByUsername(request.getUsername());
+        Optional<User> user = userRepository.findByUsername(request.getUsername());
 
 		Response response = new Response();
 		if (user.isEmpty()) {
@@ -36,13 +37,12 @@ public class AuthServiceImpl implements IAuthService {
 			response.setMessage("Tài khoản bạn nhập không tồn tại");
 			return response;
 		}
-
+		
 		if (!passwordEncoder.matches(request.getPassword(), user.get().getPassword())) {
 			response.setCode(401);
 			response.setMessage("Sai mật khẩu");
 			return response;
 		}
-
 		response.setCode(200);
 		response.setMessage("Đăng nhập thành công");
 		response.setData(user.get());
@@ -80,7 +80,7 @@ public class AuthServiceImpl implements IAuthService {
 	    String cachedOtp = redisService.getOtp(email);
 
 	    if (cachedOtp == null) {
-	        var user = userRepository.findByEmail(email);
+	        Optional<User> user = userRepository.findByEmail(email);
 	        user.ifPresent(u -> userRepository.delete(u));
 	        response.setCode(401);
 	        response.setMessage("OTP đã hết hạn, vui lòng đăng ký lại.");
@@ -120,7 +120,7 @@ public class AuthServiceImpl implements IAuthService {
 
 	    String otp = generateOtp();
 
-	    redisService.saveOtp(email, otp, 5);
+	    redisService.saveOtp(email, otp, 1);
 
 	    String subject = "OTP Verification Code";
 	    String content = "Your OTP verification code is: " + otp;

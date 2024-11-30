@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
-import vn.hoctienganh.dto.UserDTO;
 import vn.hoctienganh.entity.User;
 import vn.hoctienganh.models.LoginRequest;
 import vn.hoctienganh.models.Response;
@@ -24,9 +23,9 @@ public class AuthController {
 	public String login(HttpSession session) {
 		var result = (Response) session.getAttribute("loginResult");
 		if (result != null) {
-			var user = (UserDTO) result.getData();
+			var user = (User) result.getData();
 			if (user != null) {
-				if (user.getIsAdmin())
+				if (user.isAdmin())
 					return "redirect:/admin/home";
 				else
 					return "redirect:/user/home";
@@ -85,7 +84,7 @@ public class AuthController {
 		user.setAddress(address);
 		user.setPhoneNumber(phoneNumber);
 
-		var result = authService.register(user);
+		Response result = authService.register(user);
 		
 		if (result.getCode() != 200) {
 			model.addAttribute("error", result.getMessage());
@@ -104,7 +103,7 @@ public class AuthController {
 
 	@PostMapping("/confirm-email")
 	public String verifyOtp(@RequestParam String email, @RequestParam String otp, Model model) {
-		var result = authService.verifyOtpForEmailConfirmation(email, otp);
+		Response result = authService.verifyOtpForEmailConfirmation(email, otp);
 
 		if (result.getCode() == 401) {
 			model.addAttribute("error", result.getMessage());
@@ -144,8 +143,8 @@ public class AuthController {
 
 	@PostMapping("/verify-otp")
 	public String verifyOtpForReset(@RequestParam String otp, Model model, HttpSession session) {
-		var email = (String) session.getAttribute("email");
-		var result = authService.verifyOtpForPasswordReset(email, otp);
+		String email = (String) session.getAttribute("email");
+		Response result = authService.verifyOtpForPasswordReset(email, otp);
 
 		if (result.getCode() == 401) {
 			model.addAttribute("error", result.getMessage());
@@ -171,7 +170,7 @@ public class AuthController {
 	@PostMapping("/change-password")
 	public String changePasswordReset(@RequestParam String email, @RequestParam String password,
 			@RequestParam String confirmPassword, Model model) {
-		var result = authService.resetPassword(email, password, confirmPassword);
+		Response result = authService.resetPassword(email, password, confirmPassword);
 		if (result.getCode() != 200) {
 			model.addAttribute("error", result.getMessage());
 			model.addAttribute("email", email);
@@ -188,7 +187,7 @@ public class AuthController {
 	
 	@PostMapping("/resend-otp")
 	public String resendOtp(@RequestParam String email) {
-	    System.out.println("có");
-	    return "auth/confirm-email";
+		authService.sendOtp(email);
+	    return "redirect:/confirm-email?email=" + email;
 	}
 }

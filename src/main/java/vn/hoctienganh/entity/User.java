@@ -1,5 +1,6 @@
 package vn.hoctienganh.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -10,7 +11,8 @@ import lombok.*;
 @Entity
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED) // Because Student and Admin inherit this class
-public class User {
+public class User implements Serializable{
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
