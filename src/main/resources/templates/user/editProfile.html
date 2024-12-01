@@ -25,10 +25,12 @@
                 <div class="form-group">
                     <label for="email">Email</label>
                     <input type="email" class="form-control" id="email" name="email" th:value="${user.email}" required>
+                	<span th:if="${emailError}" th:text="${emailError}" style="color: red; font-size: 14px"></span>
                 </div>
                 <div class="form-group">
                     <label for="phoneNumber">Phone Number</label>
                     <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" th:value="${user.phoneNumber}" required>
+                	<span th:if="${phoneNumberError}" th:text="${phoneNumberError}" style="color: red; font-size: 14px"></span>
                 </div>
                 <div class="form-group">
                     <label for="address">Address</label>

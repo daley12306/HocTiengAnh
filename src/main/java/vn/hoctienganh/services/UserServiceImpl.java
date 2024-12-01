@@ -3,9 +3,6 @@ package vn.hoctienganh.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import vn.hoctienganh.entity.User;
@@ -29,15 +26,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public User addStudent(User student) {
-		if (studentRepository.existsByEmail(student.getEmail())) {
-	        throw new IllegalArgumentException("Email already exists.");
-	    }
-	    if (studentRepository.existsByPhoneNumber(student.getPhoneNumber())) {
-	        throw new IllegalArgumentException("Phone number already exists.");
-	    }
-	    if (studentRepository.existsByUsername(student.getUsername())) {
-	        throw new IllegalArgumentException("Username already exists.");
-	    }
+		
 	    String avatar = createAvatar(student.getFullName());  // Tạo avatar từ fullName
         student.setAvatar(avatar);
 	    return studentRepository.save(student);
@@ -45,15 +34,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public User updateStudent(Long id, User studentDetails) {
-		/*
-		 * if (studentRepository.existsByEmailAndIdNot(studentDetails.getEmail(), id)) {
-		 * throw new IllegalArgumentException("Email already exists."); } if
-		 * (studentRepository.existsByPhoneNumberAndIdNot(studentDetails.getPhoneNumber(
-		 * ), id)) { throw new IllegalArgumentException("Phone number already exists.");
-		 * }
-		 */
-		
-	    
+
 		User existingStudent = getStudentById(id);
 	        existingStudent.setFullName(studentDetails.getFullName());
 	        existingStudent.setUsername(studentDetails.getUsername());
@@ -85,17 +66,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public void updateUser(User user) {
-		if (user == null ) {
-            throw new IllegalArgumentException("User or user ID cannot be null");
-        }
-		// Kiểm tra trùng lặp email và số điện thoại
-		if (studentRepository.existsByEmailAndIdNot(user.getEmail(), user.getId())) {
-	        throw new IllegalArgumentException("Email already exists.");
-	    }
-	    if (studentRepository.existsByPhoneNumberAndIdNot(user.getPhoneNumber(), user.getId())) {
-	        throw new IllegalArgumentException("Phone number already exists.");
-	    }
-	    
+		
         // Kiểm tra xem người dùng có tồn tại trong cơ sở dữ liệu không
         User existingUser = studentRepository.findById(user.getId()).orElse(null);
         if (existingUser == null) {
@@ -132,5 +103,35 @@ public class UserServiceImpl implements UserService{
 
 	        return initials;
 	        
+	}
+
+	@Override
+	public boolean existsByEmail(String email) {
+		return studentRepository.existsByEmail(email);
+	}
+
+	@Override
+	public boolean existsByPhoneNumber(String phoneNumber) {
+		return studentRepository.existsByPhoneNumber(phoneNumber);
+	}
+
+	@Override
+	public boolean existsByUsernameAndIdNot(String username, Long id) {
+        return studentRepository.existsByUsernameAndIdNot(username, id);
+    }
+
+	@Override
+	public boolean existsByEmailAndIdNot(String email, Long id) {
+		return studentRepository.existsByEmailAndIdNot(email, id);
+	}
+
+	@Override
+	public boolean existsByPhoneNumberAndIdNot(String phoneNumber, Long id) {
+		return studentRepository.existsByPhoneNumberAndIdNot(phoneNumber, id);
+	}
+
+	@Override
+	public boolean existsByUsername(String username) {
+		return studentRepository.existsByUsername(username);
 	}
 }

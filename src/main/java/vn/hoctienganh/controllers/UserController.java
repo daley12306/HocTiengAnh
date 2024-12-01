@@ -3,8 +3,6 @@ package vn.hoctienganh.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,12 +30,23 @@ public class UserController {
 	
 	 @GetMapping("/user/profile/{id}")
 	    public String getProfile( @PathVariable("id") Long id,Model model) {
-		 User user = userService.getStudentById(id);;// Lấy user từ service
-	        model.addAttribute("user", user); // Truyền user sang view
-	        return "user/userProfile"; // Trả về view userProfile.html
+		 
+		 User user = userService.getStudentById(id);
+	        model.addAttribute("user", user); 
+	        return "user/userProfile"; 
 	    }
 	 @PostMapping("/user/update-profile/{id}")
-	 public String updateProfile(@PathVariable("id") Long id,@ModelAttribute User user) {
+	 public String updateProfile(@PathVariable("id") Long id,@ModelAttribute User user, Model model) {
+		 
+		 if (userService.existsByPhoneNumberAndIdNot(user.getPhoneNumber(), id)) {
+ 	        // Thêm thông báo lỗi vào model
+ 	        model.addAttribute("phoneNumberError", "Số điện thoại đã được sử dụng");
+ 	        return "user/editProfile"; 
+		 }
+		 if (userService.existsByEmailAndIdNot(user.getEmail(), id)) {
+ 	        model.addAttribute("emailError", "Email đã được sử dụng");
+ 	        return "user/editProfile"; 
+		 }
 	     // Xử lý cập nhật thông tin người dùng
 		 user.setId(id);
 	     userService.updateUser(user);
@@ -59,7 +68,21 @@ public class UserController {
 	    return "admin/add_student";  
 	}
 	@PostMapping("/users/add")
-	public String saveStudent(@ModelAttribute("user") User user) {
+	public String saveStudent(@ModelAttribute("user") User user,Model model) {
+		 if (userService.existsByEmail(user.getEmail())) {
+ 	        // Thêm thông báo lỗi vào model
+ 	        model.addAttribute("emailError", "Email đã được sử dụng");
+ 	        return "admin/add_student"; 
+ 	    }
+ 	 if (userService.existsByPhoneNumber(user.getPhoneNumber())) {
+ 	        // Thêm thông báo lỗi vào model
+ 	        model.addAttribute("phoneNumberError", "Số điện thoại đã được sử dụng");
+ 	        return "admin/add_student"; 
+ 	 }
+ 	 if (userService.existsByUsername(user.getUsername())) {
+ 	        model.addAttribute("usernameError", "Username đã được sử dụng.");
+ 	        return "admin/add_student"; 
+ 	 }
 	    // Lưu dữ liệu vào database
 	    userService.addStudent(user);
 
@@ -84,8 +107,22 @@ public class UserController {
         return "admin/edit_student"; // Tên của trang form chỉnh sửa
     }
     @PostMapping("/users/update/{id}")
-    public String updateStudent(@PathVariable Long id, @ModelAttribute User user) {
-    	        user.setId(id); // Gán lại id cho đối tượng user
+    public String updateStudent(@PathVariable Long id, @ModelAttribute User user, Model model) {
+    	 if (userService.existsByEmailAndIdNot(user.getEmail(), id)) {
+    	        // Thêm thông báo lỗi vào model
+    	        model.addAttribute("emailError", "Email đã được sử dụng");
+    	        return "admin/edit_student"; 
+    	    }
+    	 if (userService.existsByPhoneNumberAndIdNot(user.getPhoneNumber(), id)) {
+    	        // Thêm thông báo lỗi vào model
+    	        model.addAttribute("phoneNumberError", "Số điện thoại đã được sử dụng");
+    	        return "admin/edit_student"; 
+    	 }
+    	 if (userService.existsByUsernameAndIdNot(user.getUsername(), id)) {
+    	        model.addAttribute("usernameError", "Username đã được sử dụng.");
+    	        return "admin/edit_student"; 
+    	 }
+    	user.setId(id); // Gán lại id cho đối tượng user
     	        userService.updateStudent(id, user); // Cập nhật người dùng trong DB
     	        return "redirect:/admin/profile" ; // Chuyển hướng về trang danh sách người dùng
     	    

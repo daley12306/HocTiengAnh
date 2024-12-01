@@ -81,22 +81,27 @@
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input type="text" class="form-control" id="username" name="username" th:value="${user.username}" required>
+                    <span th:if="${usernameError}" th:text="${usernameError}" style="color: red; font-size: 14px"></span>
+                
                 </div>
                 
                 <!-- Added Password -->
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="text" class="form-control" id="password" name="password"  placeholder="Leave empty to keep current password">
+					<input type="text" class="form-control" id="password" name="password" th:value="${user.password}" required >
                 </div>
                 <!-- Email Field -->
                 <div class="form-group">
                     <label for="email">Email</label>
                     <input type="email" th:field="*{email}" class="form-control" id="email" required>
+                <span th:if="${emailError}" th:text="${emailError}" style="color: red; font-size: 14px"></span>
                 </div>
                 <!-- Phone Number Field -->
                 <div class="form-group">
                     <label for="phoneNumber">Phone Number</label>
                     <input type="text" th:field="*{phoneNumber}" class="form-control" id="phoneNumber" required>
+                    <span th:if="${phoneNumberError}" th:text="${phoneNumberError}" style="color: red; font-size: 14px"></span>
+                	
                 </div>
 
                 <!-- Address Field -->
