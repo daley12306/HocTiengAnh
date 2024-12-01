@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
-	<title>Học Nghe Viết Lại Từ</title>
+    <title>Học Nghe Viết Lại Từ</title>
     <style>
         body {
             font-family: 'Quicksand', sans-serif;
@@ -50,7 +50,7 @@
         .form-container {
             margin-top: 20px;
         }
-		
+
         input[type="text"] {
             width: 50%;
             padding: 10px;
@@ -59,12 +59,10 @@
             border: 1px solid #ccc;
             margin-right: 10px;
         }
-		
-	
+
         input[type="submit"] {
             padding: 10px 20px;
             font-size: 18px;
-            border: none;
             background-color: #EB9AB8;
             color: white;
             border-radius: 5px;
@@ -88,39 +86,132 @@
         .result.incorrect {
             color: #fc5e56;
         }
+
+        .navigation {
+            margin-top: 20px;
+        }
+
+        .navigation button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #EB9AB8;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+
+        .navigation button:hover {
+            background-color: #F499A3;
+        }
+
+        /* Dấu hiệu chuyển từ thành công */
+        .status-message {
+            font-size: 18px;
+            margin-top: 20px;
+            color: #4CAF50; /* Màu xanh cho thông báo thành công */
+            display: none;
+        }
     </style>
 </head>
 <body>
 
-    <h1>Học Nghe Viết Lại Từ</h1>
+<h1>Học Nghe Viết Lại Từ</h1>
 
-    <div class="container">
-        <!-- Phát âm thanh của từ -->
-        <img th:src="@{/img/logo.png}" alt="Image Description" style="max-width: 100%; height: auto; border-radius: 8px;">
-        <div class="audio-container">
-            <audio id="audio" controls>
-                <source th:src="@{${word.audio}}" type="audio/mp3">
-                 
-                Trình duyệt của bạn không hỗ trợ thẻ audio.
-            </audio>
-        </div>
-
-        <!-- Form cho người dùng nhập từ -->
-        <div class="form-container">
-            <form action="" method="post">
-                <label for="written_word">Nhập từ:</label>
-                <input type="text" id="written_word" name="written_word" required>
-                <input type="submit" value="Kiểm tra">
-            </form>
-        </div>
-
-        <!-- Hiển thị kết quả kiểm tra -->
-        <div class="result" th:if="${writtenWord != null}">
-            <p th:if="${writtenWord == word.word}" class="correct">Chính xác! Bạn đã viết đúng từ.</p>
-            <p th:if="${writtenWord != word.word}" class="incorrect">Sai rồi. Hãy thử lại.</p>
-        </div>
+<div class="container">
+    <!-- Phát âm thanh của từ -->
+    <img th:src="@{/img/logo.png}" alt="Image Description" style="max-width: 100%; height: auto; border-radius: 8px;">
+    <div class="audio-container">
+        <audio id="audio" controls>
+            <source id="audioSource" type="audio/mp3">
+            Trình duyệt của bạn không hỗ trợ thẻ audio.
+        </audio>
     </div>
-    
+
+    <!-- Form cho người dùng nhập từ -->
+    <div class="form-container">
+        <form id="checkForm">
+            <label for="written_word">Nhập từ:</label>
+            <input type="text" id="written_word" name="written_word" required>
+            <input type="submit" value="Kiểm tra">
+        </form>
+    </div>
+
+    <!-- Nút Previous và Next -->
+    <div class="navigation">
+        <button id="prevButton">Previous</button>
+        <button id="nextButton">Next</button>
+    </div>
+
+    <!-- Thông báo chuyển đổi -->
+    <div class="status-message" id="statusMessage">
+        <p>Chuyển thành công!</p>
+    </div>
+
+    <!-- Kết quả kiểm tra -->
+    <div class="result"></div>
+</div>
+
+<script>
+// Dữ liệu ví dụ: Danh sách các từ và âm thanh tương ứng
+const words = [
+    { word: "aboard", audio: "https://trumtuvung.com/audio/10/abroad_uk.mp3" },
+    { word: "advertise", audio: "https://trumtuvung.com/audio/10/advertise_uk.mp3" },
+    { word: "alive", audio: "https://trumtuvung.com/audio/10/alive_uk.mp3" }
+];
+
+let currentIndex = 0;  // Đặt chỉ số của từ hiện tại
+
+const audioElement = document.getElementById('audio');
+const audioSource = document.getElementById('audioSource');
+const prevButton = document.getElementById('prevButton');
+const nextButton = document.getElementById('nextButton');
+const statusMessage = document.getElementById('statusMessage');
+const writtenWordInput = document.getElementById('written_word');
+const resultDiv = document.querySelector('.result');
+
+// Hàm cập nhật âm thanh và từ theo chỉ mục hiện tại
+function updateAudio() {
+    const currentWord = words[currentIndex];
+    audioSource.src = currentWord.audio;
+    audioElement.load();  // Tải lại âm thanh mới
+    audioElement.play();   // Phát âm thanh mới
+}
+
+// Chuyển đến từ trước (previous)
+prevButton.addEventListener('click', () => {
+    currentIndex = (currentIndex > 0) ? currentIndex - 1 : words.length - 1;
+    updateAudio();
+});
+
+// Chuyển đến từ sau (next)
+nextButton.addEventListener('click', () => {
+    currentIndex = (currentIndex < words.length - 1) ? currentIndex + 1 : 0;
+    updateAudio();
+});
+
+// Cập nhật âm thanh khi trang được tải lần đầu
+updateAudio();
+
+// Kiểm tra khi người dùng nhấn nút "Kiểm tra"
+document.getElementById('checkForm').addEventListener('submit', function(e) {
+    e.preventDefault();  // Ngừng việc gửi form
+
+    const writtenWord = writtenWordInput.value.trim().toLowerCase();  // Lấy từ người dùng nhập
+    const currentWord = words[currentIndex].word.toLowerCase();  // Lấy từ hiện tại trong mảng
+
+    // Kiểm tra nếu từ người dùng nhập khớp với từ hiện tại
+    if (writtenWord === currentWord) {
+        // Nếu nhập đúng, hiển thị kết quả chính xác
+        resultDiv.innerHTML = '<p class="correct" style="color: green; font-weight: bold;">Chính xác! Bạn đã viết đúng từ.</p>';
+    } else {
+        // Nếu nhập sai, hiển thị kết quả sai
+        resultDiv.innerHTML = '<p class="incorrect" style="color: red; font-weight: bold;">Sai rồi. Hãy thử lại.</p>';
+    }
+});
+</script>
+
+
 
 </body>
 </html>

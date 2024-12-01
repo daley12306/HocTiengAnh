@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,251 +8,263 @@
     <link rel="stylesheet" href="/statics/styles.css">
     <style>
         /* Thanh taskbar ở trên */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #fff;
-            color: #333;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            justify-content: center; /* Căn giữa khung */
-        }
+        /* Chỉnh sửa font và bố cục của body */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #FDCEDF;  /* Màu nền hồng nhạt */
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    justify-content: center; /* Căn giữa khung */
+}
 
-        header {
-            width: 100%;
-            background-color: #007bff;
-            color: white;
-            padding: 20px 0;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
+/* Header */
+header {
+    width: 100%;
+    background-color: #EB9AB8; /* Màu hồng đậm */
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
 
-        header h1 {
-            margin: 0;
-            font-size: 1.8rem;
-            text-transform: uppercase;
-        }
+header h1 {
+    margin: 0;
+    font-size: 2rem;
+    text-transform: uppercase;
+}
 
-        header img {
-            max-width: 100px;
-            margin-bottom: 10px;
-        }
+header img {
+    max-width: 100px;
+    margin-bottom: 10px;
+}
 
-        /* Thanh taskbar */
-        .taskbar {
-            width: 100%;
-            background-color: #ff66b2; /* Thanh taskbar màu hồng */
-            color: white;
-            padding: 10px 0;
-            text-align: center;
-            font-size: 1.2rem;
-            font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: space-between; /* Các nút được căn đều */
-            align-items: center;
-            padding: 10px 20px;
-        }
+/* Thanh taskbar */
+.taskbar {
+    width: 100%;
+    background-color: #FFD78F; /* Màu vàng sáng */
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: space-between; /* Các nút được căn đều */
+    align-items: center;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
 
-        .taskbar .title {
-            font-weight: bold;
-            font-size: 1.5rem;
-        }
+.taskbar .title {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
 
-        .taskbar .buttons {
-            display: flex;
-            gap: 15px;
-        }
+.taskbar .buttons {
+    display: flex;
+    gap: 15px;
+}
 
-        .taskbar button {
-            padding: 5px 10px;
-            font-size: 1rem;
-            background-color: white;
-            color: #ff66b2;
-            border: 1px solid #ff66b2;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
+.taskbar button {
+    padding: 8px 16px;
+    font-size: 1rem;
+    background-color: #F8E8EE; /* Màu hồng nhạt */
+    color: #F499A3; /* Màu hồng nhẹ */
+    border: 2px solid #F499A3;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
 
-        .taskbar button:hover {
-            background-color: #ff3385;
-            color: white;
-        }
+.taskbar button:hover {
+    background-color: #F499A3;  /* Màu hồng sáng khi hover */
+    color: white;
+    transform: scale(1.05);
+}
 
-        /* Khung chứa các ô ghép nối */
-        .container {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 50px;
-            width: 100%;
-            max-width: 1200px;
-            padding: 20px;
-            background-color: #f2bdd1; /* Khung hồng chứa các ô */
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            position: relative;
-        }
+/* Khung chứa các ô ghép nối */
+.container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-top: 50px;
+    width: 100%;
+    max-width: 1200px;
+    padding: 20px;
+    background-color: #EB9AB8; /* Màu hồng đậm */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
 
-        .column {
-            width: 45%;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            align-items: center;
-        }
+.column {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
 
-        .box, .target {
-            padding: 0;
-            border-radius: 8px;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            transition: transform 0.3s, background-color 0.3s;
-            width: 100px;
-            height: 100px;
-            margin: 10px;
-            box-sizing: border-box;
-            position: relative;
-        }
+.box, .target {
+    padding: 0;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: transform 0.3s, background-color 0.3s;
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+    box-sizing: border-box;
+    position: relative;
+}
 
-        .box {
-            background-color: #fff;
-            border: 2px solid #007bff;
-            color: #007bff;
-            font-weight: bold;
-            cursor: grab;
-        }
+/* Các box có màu sắc và hiệu ứng */
+.box {
+    background-color: #F8E8EE; /* Màu hồng nhạt */
+    border: 2px solid #FFD78F; /* Màu vàng */
+    color: #F499A3;  /* Màu hồng nhẹ */
+    font-weight: bold;
+    cursor: grab;
+    border-radius: 10px;
+}
 
-        .box:active {
-            transform: scale(0.98);
-        }
+.box:active {
+    transform: scale(0.98);
+}
 
-        .target {
-            background-color: #e0f7fa;
-            border: 2px dashed #007bff;
-            min-height: 60px;
-            color: #007bff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+.target {
+    background-color: #FDCEDF; /* Màu hồng nhạt */
+    border: 2px dashed #F499A3; /* Màu hồng nhẹ */
+    min-height: 60px;
+    color: #F499A3;  /* Màu hồng nhẹ */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    transition: background-color 0.3s, transform 0.3s;
+}
 
-        .target.dropped {
-            background-color: #f0f0f0;
-        }
+.target.dropped {
+    background-color: #F8E8EE; /* Màu hồng nhạt khi thả vào */
+}
 
-        .target.correct {
-            background-color: #d4edda;
-            border-color: #28a745;
-        }
+.target.correct {
+    background-color: #D4EDDA; /* Màu xanh lá cho kết quả đúng */
+    border-color: #28A745; /* Màu xanh lá */
+}
 
-        .target.wrong {
-            background-color: #f8d7da;
-            border-color: #dc3545;
-        }
+.target.wrong {
+    background-color: #F8D7DA; /* Màu đỏ nhạt cho kết quả sai */
+    border-color: #DC3545; /* Màu đỏ */
+}
 
-        #buttons {
-            display: flex;
-            justify-content: center;
-            margin-top: 30px;
-            gap: 20px;
-        }
+/* Nút kiểm tra */
+#buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    gap: 20px;
+}
 
-        button {
-            padding: 10px 20px;
-            font-size: 1.1rem;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
+button {
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    background-color: #FFD78F; /* Màu vàng sáng */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
 
-        button:hover {
-            background-color: #0056b3;
-        }
+button:hover {
+    background-color: #F8E8EE;  /* Màu hồng nhạt khi hover */
+    color: #F499A3; /* Màu hồng nhạt */
+    transform: scale(1.05);
+}
 
-        #result {
-            margin-top: 20px;
-            font-size: 1.5rem;
-            font-weight: bold;
-            text-align: center;
-            color: #333;
-        }
+/* Hiển thị kết quả */
+#result {
+    margin-top: 20px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    color: #333;
+}
 
-        footer {
-            margin-top: auto;
-            width: 100%;
-            background-color: #007bff;
-            color: white;
-            text-align: center;
-            padding: 15px 0;
-        }
+/* Footer */
+footer {
+    margin-top: auto;
+    width: 100%;
+    background-color: #EB9AB8; /* Màu hồng đậm */
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+}
 
-        footer a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
+footer a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
 
-        footer a:hover {
-            color: #cce7ff;
-        }
-        .container {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-top: 50px;
-            width: 100%;
-            max-width: 1200px;
-            padding: 20px;
-            background-color: #f2bdd1; /* Khung hồng chứa các ô */
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            position: relative;
-        }
-        .column {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            align-items: center;
-        }
+footer a:hover {
+    color: #cce7ff; /* Màu sáng khi hover */
+}
+        
+        /* Nút vuông */
+.square-button {
+    width: 100px;  /* Chiều rộng của nút vuông */
+    height: 100px;  /* Chiều cao của nút vuông */
+    background-color: #F8E8EE;  /* Màu nền của nút */
+    border: 2px solid #F499A3;  /* Đường viền màu */
+    border-radius: 8px;  /* Làm tròn các góc của nút */
+    display: flex;
+    justify-content: center;  /* Canh giữa ảnh theo chiều ngang */
+    align-items: center;  /* Canh giữa ảnh theo chiều dọc */
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s; /* Hiệu ứng khi hover */
+}
 
-        .box, .target {
-            padding: 0;
-            border-radius: 8px;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            transition: transform 0.3s, background-color 0.3s;
-            width: 100px;
-            height: 100px;
-            margin: 10px;
-            box-sizing: border-box;
-            position: relative;
-        }
+/* Điều chỉnh ảnh trong nút */
+.button-image {
+    width: 100%;  /* Ảnh chiếm 60% chiều rộng của nút */
+    height: auto;  /* Giữ tỷ lệ gốc của ảnh */
+    transition: transform 0.2s;  /* Thêm hiệu ứng cho ảnh khi hover */
+}
+
+/* Hiệu ứng hover cho nút */
+.square-button:hover {
+    background-color: #F499A3;  /* Đổi màu khi hover */
+}
+
+.square-button:hover .button-image {
+    transform: scale(1.1);  /* Phóng to ảnh khi hover */
+}
+        
 
         /* Các style khác cho .box, .target, etc. */
     </style>
 </head>
 <body>
+
     <div class="taskbar">
+    <button class="square-button">
+    <img src="/img/logo.png" alt="Logo" class="button-image">
+</button>
+    
         <span class="title"></span>
         <div class="buttons">
             <button id="help-btn">Help</button>
@@ -425,6 +438,7 @@
     });
 
     </script>
+
 
 </body>
 </html>
