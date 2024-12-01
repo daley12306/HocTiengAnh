@@ -38,4 +38,13 @@ public class VocabularyServiceImpl implements VocabularyService {
         return vocabularyRepository.findAllForMatching(); // Trả về dữ liệu cần thiết
     }
     
+    public Vocabulary getVocabularyByWord(String word) {
+        return vocabularyRepository.findByWord(word);
+    }
+    
+    public Vocabulary getRandomWord() {
+        List<Vocabulary> words = vocabularyRepository.findTop1ByOrderByIdAsc(); // Lấy từ ngẫu nhiên
+        return words.isEmpty() ? null : words.get(0);
+    }
+    
 }

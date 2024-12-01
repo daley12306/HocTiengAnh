@@ -11,4 +11,6 @@ public interface VocabularyService {
     Vocabulary saveVocabulary(Vocabulary vocabulary);
     void deleteVocabulary(Integer id);
     List<Map<String, Object>> getVocabulariesForMatching();
+    Vocabulary getVocabularyByWord(String word);
+    Vocabulary getRandomWord();
 }

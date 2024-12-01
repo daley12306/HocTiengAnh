@@ -12,5 +12,6 @@ public interface VocabularyRepository extends JpaRepository<Vocabulary, Integer>
 	Vocabulary findByWord (String word);
 	@Query("SELECT v.id AS id, v.word AS word, v.definition AS definition FROM Vocabulary v")
     List<Map<String, Object>> findAllForMatching();
+	List<Vocabulary> findTop1ByOrderByIdAsc();
 	
 }

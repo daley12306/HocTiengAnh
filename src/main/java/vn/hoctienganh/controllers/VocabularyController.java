@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import vn.hoctienganh.entity.Vocabulary;
@@ -52,5 +53,26 @@ public class VocabularyController {
         model.addAttribute("vocabularies", vocabularies);
         return "matchVocabulary";  // Return the Thymeleaf view name
     }
+    
+    @GetMapping("/learn")
+    public String showWord(Model model) {
+        Vocabulary word = vocabularyService.getRandomWord();  // Lấy từ ngẫu nhiên
+  
+        model.addAttribute("word", word);  // Truyền từ vào model
+        return "listening_view";  // Trả về view listening_view.html
+    }
+
+    @PostMapping("/learn")
+    public String checkAnswer(@RequestParam("written_word") String writtenWord, Model model) {
+        Vocabulary word = vocabularyService.getRandomWord();  // Lấy lại từ ngẫu nhiên
+        model.addAttribute("word", word);  // Truyền lại từ vào model
+        model.addAttribute("writtenWord", writtenWord);  // Truyền từ người dùng nhập vào
+
+        return "listening_view";  // Trả về cùng một view để hiển thị kết quả
+    }
+
+
+
+
 
 }

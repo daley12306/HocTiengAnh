@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+	<title>Học Nghe Viết Lại Từ</title>
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #f4f8fb;
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            background-color: #FDCEDF;
+            color: white;
+            padding: 20px;
+            margin: 0;
+            font-size: 36px;
+        }
+
+        h2 {
+            color: #FDCEDF;
+            font-size: 24px;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #FDCEDF;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .audio-container {
+            margin: 20px 0;
+        }
+
+        audio {
+            border-radius: 8px;
+            padding: 10px;
+            color: white;
+        }
+
+        .form-container {
+            margin-top: 20px;
+        }
+		
+        input[type="text"] {
+            width: 50%;
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+        }
+		
+	
+        input[type="submit"] {
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            background-color: #EB9AB8;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #F499A3;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .result.correct {
+            color: #27c93f;
+        }
+
+        .result.incorrect {
+            color: #fc5e56;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Học Nghe Viết Lại Từ</h1>
+
+    <div class="container">
+        <!-- Phát âm thanh của từ -->
+        <img th:src="@{/img/logo.png}" alt="Image Description" style="max-width: 100%; height: auto; border-radius: 8px;">
+        <div class="audio-container">
+            <audio id="audio" controls>
+                <source th:src="@{${word.audio}}" type="audio/mp3">
+                 
+                Trình duyệt của bạn không hỗ trợ thẻ audio.
+            </audio>
+        </div>
+
+        <!-- Form cho người dùng nhập từ -->
+        <div class="form-container">
+            <form action="" method="post">
+                <label for="written_word">Nhập từ:</label>
+                <input type="text" id="written_word" name="written_word" required>
+                <input type="submit" value="Kiểm tra">
+            </form>
+        </div>
+
+        <!-- Hiển thị kết quả kiểm tra -->
+        <div class="result" th:if="${writtenWord != null}">
+            <p th:if="${writtenWord == word.word}" class="correct">Chính xác! Bạn đã viết đúng từ.</p>
+            <p th:if="${writtenWord != word.word}" class="incorrect">Sai rồi. Hãy thử lại.</p>
+        </div>
+    </div>
+    
+
+</body>
+</html>
