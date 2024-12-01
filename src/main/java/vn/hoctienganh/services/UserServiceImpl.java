@@ -30,11 +30,12 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public User updateStudent(Long id, User studentDetails) {
-		 User existingStudent = getStudentById(id);
-	        existingStudent.setFullName(studentDetails.getFullName());
-	        existingStudent.setEmail(studentDetails.getEmail());
-	        existingStudent.setPhoneNumber(studentDetails.getPhoneNumber());
-	        return studentRepository.save(existingStudent);
+//		 User existingStudent = getStudentById(id);
+//	        existingStudent.setFullName(studentDetails.getFullName());
+//	        existingStudent.setEmail(studentDetails.getEmail());
+//	        existingStudent.setPhoneNumber(studentDetails.getPhoneNumber());
+//	        return studentRepository.save(existingStudent);
+	        return null;
 	}
 
 	@Override
