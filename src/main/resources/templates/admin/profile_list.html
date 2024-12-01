@@ -2,44 +2,83 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{admin/layout_admin.html}">
+      
 <head>
 <meta charset="UTF-8">
+
 <title>Insert title here</title>
+<style>
+  /* Thêm một số kiểu CSS để làm đẹp bảng và các phần tử */
+  .table th, .table td {
+    vertical-align: middle;
+  }
+  .table-header {
+    background-color: #007bff; /* Màu xanh dương cho header */
+    color: white;
+  }
+  .container {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  .table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f2f2f2; /* Màu nền cho các dòng lẻ trong bảng */
+  }
+  .table-striped tbody tr:hover {
+    background-color: #e9ecef; /* Màu nền khi hover */
+  }
+  .card-header {
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+  }
+</style>
 </head>
 <body layout:fragment="content">
 <div class="container mt-5">
-  <h2 class="text-center my-4">Student Directory</h2>
-  <div class="text-end mb-3">
-    <a href="/admin/users/add" class="btn btn-success">Add Student</a>
-  </div>
+  <h2 class="text-center my-4">User Directory</h2>
+  
+  <div class="d-flex justify-content-between mb-3">
+    <a href="/" class="btn btn-primary">Back to Home</a>
+    <a href="/admin/users/add" class="btn btn-success">Add User</a>
+</div>
+
   <div class="table-responsive">
-    <table class="table align-middle mb-0 bg-white">
+    <table class="table table-striped align-middle mb-0 bg-white">
       <thead class="bg-light">
         <tr>
-          <th>First Name</th>
-          <th>Name</th>
+          <th>ID</th>
+          <th>Full Name</th>
+          <th>User Name</th>
+          <th>Password</th>
           <th>Email</th>
-          <th>Phone</th>
-          
+          <th>Address</th>
+          <th>Phone Number</th>
+          <th>Role</th>
         </tr>
       </thead>
       <tbody>
           <tr th:each="user : ${users}">
-          <td th:text="${user.name}"></td>
-          <td th:text="${user.lastName}"></td>
-          <td th:text="${user.email}"></td>
-          <td th:text="${user.phone}"></td>
-          <td>
-            <a th:href="@{/admin/users/edit/{id}(id=${user.id})}" class="btn btn-warning btn-sm">Edit</a>
-            <a th:href="@{/admin/users/delete/{id}(id=${user.id})}" 
-               class="btn btn-danger btn-sm"
-               onclick="return confirm('Are you sure you want to delete this user?');">
-              Delete
-            </a>
-          </td>
+	          <td th:text="${user.id}"></td>
+	          <td th:text="${user.fullName}"></td>
+	          <td th:text="${user.username}"></td>
+	          <td th:text="${user.password}"></td>
+	          <td th:text="${user.email}"></td>
+	          <td th:text="${user.address}"></td>
+	          <td th:text="${user.phoneNumber}"></td>
+	          <td>
+            	<span th:text="${user.isAdmin ? 'Admin' : 'User'}"></span> </td>
+	          <td>
+	            <a th:href="@{/admin/users/edit/{id}(id=${user.id})}" class="btn btn-warning btn-sm">Edit</a>
+	          <form th:action="@{/admin/users/delete/{id}(id=${user.id})}" method="post" onsubmit="return confirm('Are you sure you want to delete user ?');">
+    			<button type="submit" class="btn btn-danger btn-sm">Delete</button>
+			  </form>
+	          </td>
         </tr>
       </tbody>
     </table>
+    
   </div>
 </div>
 

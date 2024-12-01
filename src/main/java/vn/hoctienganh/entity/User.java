@@ -15,7 +15,7 @@ import lombok.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private long id;
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -28,8 +28,10 @@ public class User {
     private String address;
     private String phoneNumber;
     
+    private String avatar;
+    
     @Column(nullable = false)
-    private boolean isAdmin;
+    private Boolean isAdmin;
     
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<StudyRecord> studyRecords;
