@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+   	<link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	
+</head>
+<body>
+<div class="container mt-5">
+    <div class="card" style="max-width: 600px; margin: auto;">
+        <div class="card-header text-center" style="background-color:#FDCEDF;" >
+            <h2 th:text="${user.fullName}" style="color:#FFFFFF;">Full Name</h2>
+        </div>
+          
+        <div class="card-body" style="background-color: #FFD78F;">
+    		<div class="d-flex justify-content-center align-items-center">
+        		<div class="avatar" style="width: 60px; height: 60px; background-color: #f2f2f2; border-radius: 50%; display: flex; justify-content: center; align-items: center;">
+            		<span th:text="${user.avatar}" style="font-size: 24px; font-weight: bold; color: #333;"></span>
+        		</div>
+    		</div>
+			
+
+
+            <p><strong>Full Name:</strong> <span th:text="${user.fullName}">fullName</span></p>
+            <p><strong>Username:</strong> <span th:text="${user.username}">username</span></p>
+            <p><strong>Email:</strong> <span th:text="${user.email}">email</span></p>
+            <p><strong>Phone Number:</strong> <span th:text="${user.phoneNumber}">phoneNumber</span></p>
+            <p><strong>Address:</strong> <span th:text="${user.address}">address</span></p>
+            <p><strong>Role:</strong> 
+                <span th:text="${user.isAdmin ? 'Admin' : 'User'}">role</span>
+            </p>
+            </div>
+            <div class="card-footer text-center" style="background-color: #FDCEDF;">
+        <a  class="btn btn-warning" th:href="@{/admin/user/edit-profile/{id}(id=${user.id})}">Edit Profile</a>
+            <a href="/" class="btn btn-primary">Back to Home</a>
+        </div>
+        </div>
+        
+    </div>
+</div>
+<script src="/js/script.js"></script>
+</body>
+</html>

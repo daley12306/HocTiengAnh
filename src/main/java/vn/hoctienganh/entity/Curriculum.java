@@ -5,8 +5,9 @@ import java.util.List;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "curriculum")
 public class Curriculum {
@@ -14,10 +15,14 @@ public class Curriculum {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column( columnDefinition = "NVARCHAR(MAX) COLLATE Vietnamese_CI_AS")
     private String name;
 
+    @ManyToMany(mappedBy = "curriculums", cascade = CascadeType.ALL)
+    private List<StudyRecord> studyRecords;
+   
+    
     @OneToMany(mappedBy = "curriculum", cascade = CascadeType.ALL)
     private List<Vocabulary> vocabularies;
-
     // Getters and Setters
 }

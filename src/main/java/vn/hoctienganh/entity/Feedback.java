@@ -1,5 +1,7 @@
 package vn.hoctienganh.entity;
 
+import java.util.Date;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,7 +13,7 @@ public class Feedback {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "student_id", nullable = false) // Liên kết với Student
@@ -28,53 +30,19 @@ public class Feedback {
 
     @Column(name = "image", columnDefinition = "TEXT")
     private String image; // URL hoặc đường dẫn tới hình ảnh
+    
+    @Column(nullable = false)
+    private boolean isReply	= false; // Trạng thái phản hồi;
+    
+    @Column(nullable = false)
+    private Date created = new Date(); // Ngày tạo
 
-    // Getters và Setters
-    public Integer getId() {
-        return id;
-    }
+	@Override
+	public String toString() {
+		return "Feedback [id=" + id + ", student=" + student + ", email=" + email + ", subject=" + subject
+				+ ", description=" + description + ", image=" + image + ", isReply=" + isReply + ", created=" + created
+				+ "]";
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public User getStudent() {
-        return student;
-    }
-
-    public void setStudent(User student) {
-        this.student = student;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
+    
 }
