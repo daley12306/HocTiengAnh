@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/user/layout.html}">
+<head>
+<meta charset="UTF-8">
+<title>Study</title>
+</head>
+
+
+<body layout:fragment="content">
+	<!-- Container for the entire layout -->
+	<div class="learning-program-container">
+		<!-- Logo Section -->
+		<div class="logo-container">
+			<img src="/img/logo.png" alt="Logo" class="logo">
+		</div>
+
+		<!-- ComboBox Section -->
+		<div class="combobox-container">
+			<label for="topic-select" class="combobox-label">Chọn chủ đề</label>
+			<select id="topic-select" class="combobox">
+				<option value="topic1">Chủ đề 1</option>
+				<option value="topic2">Chủ đề 2</option>
+				<option value="topic3">Chủ đề 3</option>
+			</select> <img src="/img/down.png" alt="Dropdown" class="dropdown-icon">
+		</div>
+
+		<!-- Line with label -->
+		<div class="line-container">
+			<span class="line-label">Hình thức học</span>
+			<hr class="line">
+
+		</div>
+
+		<!-- Button Section -->
+		<div class="button-container">
+			<button class="button-learn">Button 1</button>
+			<button class="button-learn">Button 2</button>
+			<button class="button-learn">Button 3</button>
+			<button class="button-learn">Button 4</button>
+			<button class="button-learn">Button 5</button>
+		</div>
+	</div>
+	
+	
+</body>
+
+</html>

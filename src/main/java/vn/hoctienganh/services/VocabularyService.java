@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import vn.hoctienganh.entity.Vocabulary;
+import vn.hoctienganh.entity.Curriculum;
 
 public interface VocabularyService {
 	void deleteById(int id);
@@ -24,7 +25,6 @@ public interface VocabularyService {
 
 	<S extends Vocabulary> S save(S entity);
 	
-	int calculateMemLevel(Vocabulary vocabulary);
-	
-	void updateMemLevel(Vocabulary vocabulary);
+	List<Vocabulary> findByCurriculum(Curriculum curriculum);
+
 }

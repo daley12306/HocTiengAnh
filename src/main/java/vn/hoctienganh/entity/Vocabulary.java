@@ -29,8 +29,5 @@ public class Vocabulary {
     @JoinColumn(name = "curriculum_id")
     private Curriculum curriculum;
     
-    @OneToMany(mappedBy = "vocabulary", cascade = CascadeType.ALL)
-    private List<RememberLevel> rememberLevels;
-    // Getters and Setters
 }
 

@@ -10,6 +10,6 @@ public class LearnController {
 	
 	@GetMapping("study")
 	public String index() {
-		return "user/flashcard";
+		return "/user/study";
 	}
 }

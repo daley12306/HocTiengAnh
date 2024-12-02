@@ -15,7 +15,7 @@ public class StudyRecord {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	private String learningStatus;
+	private boolean learningStatus;
 
 	@OneToOne
 	@JoinColumn(name = "student_id")
@@ -28,7 +28,4 @@ public class StudyRecord {
 	)
 	private List<Curriculum> curriculums;
 
-	@OneToMany(mappedBy = "studyRecord", cascade = CascadeType.ALL)
-    private List<RememberLevel> rememberLevels;
-	// Getters and Setters
 }

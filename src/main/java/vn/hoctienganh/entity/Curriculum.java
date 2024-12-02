@@ -19,9 +19,7 @@ public class Curriculum {
 
     @ManyToMany(mappedBy = "curriculums", cascade = CascadeType.ALL)
     private List<StudyRecord> studyRecords;
-    
-    @Column(name = "completion_percentage")
-    private int completionPercentage;
+   
     
     @OneToMany(mappedBy = "curriculum", cascade = CascadeType.ALL)
     private List<Vocabulary> vocabularies;

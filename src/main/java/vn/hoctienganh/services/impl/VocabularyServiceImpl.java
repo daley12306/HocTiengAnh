@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import vn.hoctienganh.entity.Curriculum;
 import vn.hoctienganh.entity.Vocabulary;
 import vn.hoctienganh.repository.VocabularyRepository;
 import vn.hoctienganh.services.VocabularyService;
@@ -57,31 +58,8 @@ public class VocabularyServiceImpl implements VocabularyService {
 	}
 
 	@Override
-	public int calculateMemLevel(Vocabulary vocabulary) {
-		double baseDecayRate = Math.max(0.2 , 0.3 - (vocabulary.getLearnCount() * 0.01));
-		double reviewFactor = Math.min( 0.8 + (vocabulary.getLearnCount() * 0.02), 0.9);
-		int maxMemLevel = 10; 
-
-		long timeSinceReview = Duration.between(vocabulary.getLastLearn(), LocalDateTime.now()).toDays();
-		double adjustedDecayRate = baseDecayRate / Math.pow(vocabulary.getLearnCount() + 1, reviewFactor);
-		double retentionRate = Math.exp(-adjustedDecayRate * timeSinceReview);
-
-		int currentMemLevel = vocabulary.getMemLevel();
-		if (retentionRate > 0.8) {
-			currentMemLevel = Math.min(currentMemLevel + 1, maxMemLevel);
-		} else if (retentionRate < 0.5) {
-			currentMemLevel = Math.max(currentMemLevel - 1, 0);
-		}
-
-		return currentMemLevel;
+	public List<Vocabulary> findByCurriculum(Curriculum curriculum) {
+		return vocabularyRepository.findByCurriculum(curriculum);
 	}
-
-	public void updateMemLevel(Vocabulary v) {
-        int updatedMemLevel = calculateMemLevel(v);
-        v.setMemLevel(updatedMemLevel);
-        vocabularyRepository.save(v);
-    }
-	
-	
 
 }
