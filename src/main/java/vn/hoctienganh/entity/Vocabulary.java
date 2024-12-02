@@ -1,5 +1,7 @@
 package vn.hoctienganh.entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,8 +15,11 @@ public class Vocabulary {
     private Integer id;
 
     private String word;
-    private String definition;
+    @Column(name = "pronunciation", columnDefinition = "NVARCHAR(MAX) COLLATE Vietnamese_CI_AS")
     private String pronunciation;
+
+    @Column(name = "definition", columnDefinition = "NVARCHAR(MAX) COLLATE Vietnamese_CI_AS")
+    private String definition;
     private String example;
     private String audio;
     private String image;
@@ -25,4 +30,3 @@ public class Vocabulary {
 
     // Getters and Setters
 }
-

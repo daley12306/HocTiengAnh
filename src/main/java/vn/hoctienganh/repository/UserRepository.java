@@ -7,14 +7,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import vn.hoctienganh.models.UserModel;
+import vn.hoctienganh.entity.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<UserModel, Long> { 
-	Optional<UserModel> findByName(String name);
-	Page<UserModel> findByNameContaining(String name, Pageable pageable);
-	Optional<UserModel> findByUsername(String username);
-    Optional<UserModel> findByEmail(String email); // Tìm người dùng qua email
-	boolean existsByUsername(String username); // Kiểm tra sự tồn tại của username
-    boolean existsByEmail(String email); // Kiểm tra sự tồn tại của email
+public interface UserRepository extends JpaRepository<User, Long> { 
+	Optional<User> findByFullName(String fullName);
+	Optional<User> findByUsername(String username);
+	Page<User> findByFullNameContaining(String fullName, Pageable pageable);
+	boolean existsByEmail(String email);
+	boolean existsByUsername(String username);
+    boolean existsByPhoneNumber(String phoneNumber);
+    boolean existsByUsernameAndIdNot(String username, Long id);
+    boolean existsByEmailAndIdNot(String email, Long id);   
+    boolean existsByPhoneNumberAndIdNot(String phoneNumber, Long id);
 }

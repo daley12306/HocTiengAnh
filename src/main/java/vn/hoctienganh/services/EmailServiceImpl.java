@@ -12,7 +12,8 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 
 @Service
-public class EmailServiceImpl implements IEmailService {
+public class EmailServiceImpl implements EmailService {
+
     @Autowired
     private JavaMailSender mailSender;
 
@@ -20,7 +21,8 @@ public class EmailServiceImpl implements IEmailService {
         MimeMessage message = mailSender.createMimeMessage();
         try{
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
-            helper.setFrom(new InternetAddress("yt.thangla.2004@gmail.com", "Capilingo"));
+            helper.setFrom(new InternetAddress("yt.thangla.2004@gmail.com", "Capylingo"));
+
             helper.setTo(to);
             helper.setSubject(subject);
             helper.setText(content, true);
