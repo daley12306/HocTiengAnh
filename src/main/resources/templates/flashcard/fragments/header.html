@@ -11,7 +11,7 @@
 
 	<!-- Progress Tracker -->
 	<div class="progress-tracker">
-		<h3>1 / 11</h3>
+		<h3 th:text="${currentIndex + 1} + ' / ' + ${vocabularyList.size()}"></h3>
 	</div>
 
 

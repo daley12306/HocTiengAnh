@@ -11,7 +11,7 @@ import vn.hoctienganh.entity.Vocabulary;
 
 @Repository
 public interface VocabularyRepository extends JpaRepository<Vocabulary, Integer> {
-	@Query(value = "SELECT v.word FROM HocTiengAnh.dbo.vocabulary v "
+	@Query(value = "SELECT v.* FROM HocTiengAnh.dbo.vocabulary v "
 			+ "JOIN HocTiengAnh.dbo.curriculum c ON v.curriculum_id = c.id "
 			+ "WHERE c.name = :curriculumName", nativeQuery = true)
 	List<Vocabulary> findWordsByCurriculumName(@Param("curriculumName") String curriculumName);

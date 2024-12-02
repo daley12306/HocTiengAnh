@@ -1,21 +1,23 @@
 <div th:fragment="footer">
 	<footer>
 		<!-- Footer -->
-		<div class="footer">
-			<!-- Arrow Buttons -->
-			<div class="arrow-buttons">
-				<button class="arrow left">
-					&#8592;
-					<!-- Left Arrow -->
-				</button>
-				<button class="arrow right">
-					&#8594;
-					<!-- Right Arrow -->
-				</button>
-			</div>
-
-			<!-- Border at the bottom -->
-			<div class="footer-border"></div>
+		<div class="arrow-buttons">
+			<form th:action="@{/study/{id}/flashcard/previous(id=${id})}"
+				method="post">
+				<input type="hidden" name="currentIndex" th:value="${currentIndex}" />
+				<input type="hidden" name="curriculum_name"
+					th:value="${curriculumName}" />
+				<button class="arrow left" th:disabled="${currentIndex == 0}">&#8592;</button>
+			</form>
+			<!-- Form chuyển đến flashcard trước đó -->
+			<form th:action="@{/study/{id}/flashcard/next(id=${id})}"
+				method="post">
+				<input type="hidden" name="currentIndex" th:value="${currentIndex}" />
+				<input type="hidden" name="curriculum_name"
+					th:value="${curriculumName}" />
+				<button class="arrow right"
+					th:disabled="${currentIndex >= vocabularyList.size()}">&#8594;</button>
+			</form>
 		</div>
 	</footer>
 </div>
