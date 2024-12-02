@@ -105,6 +105,8 @@ public class VocabularyController {
 
 			Vocabulary saved = vocabularyService.addVocabularyToCurriculum(curriculumId, vocabulary);
 			return ResponseEntity.ok(saved);
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.internalServerError()

@@ -39,10 +39,11 @@ public class VocabularyServiceImpl implements VocabularyService {
 			throw new RuntimeException("Curriculum không tồn tại với id: " + curriculumId);
 		}
 		
+		// Kiểm tra từ tồn tại TRƯỚC KHI validate và xử lý
 		String word = vocabulary.getWord().trim();
-        if (isWordExists(word)) {
-            throw new IllegalArgumentException("Từ vựng '" + word + "' đã tồn tại trong hệ thống");
-        }
+		if (isWordExists(word)) {
+			throw new IllegalArgumentException("Từ vựng '" + word + "' đã tồn tại trong hệ thống");
+		}
 		
 		// Validate dữ liệu từ vựng
 		validateVocabularyData(vocabulary);
