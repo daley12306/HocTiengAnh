@@ -15,7 +15,7 @@ public interface CurriculumService {
 	long count();
 
 	Optional<Curriculum> findById(int id);
-	
+
 	List<Curriculum> findAll();
 
 	Page<Curriculum> findAll(Pageable pageable);
@@ -23,6 +23,16 @@ public interface CurriculumService {
 	List<Curriculum> findAll(Sort sort);
 
 	<S extends Curriculum> S save(S entity);
-	
+
 	List<String> getCurriculumNamesByStudyRecordId(int studyRecordId);
+
+	Curriculum findByName(String name);
+
+	Integer getCurriculumIdByName(String name);
+
+	List<Curriculum> getAllCurriculums();
+
+	boolean existsById(Integer id);
+
+	Curriculum findById(Integer id);
 }

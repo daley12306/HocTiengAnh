@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>Quản lý từ vựng</title>
+<link
+	th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css}"
+	rel="stylesheet"
+	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+	crossorigin="anonymous">
+<script
+	th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js}"
+	integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+	crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<style>
+.curriculum-item {
+	cursor: pointer;
+	padding: 10px;
+	margin: 5px 0;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+}
+
+.curriculum-item:hover {
+	background-color: #f8f9fa;
+}
+
+.curriculum-item.active {
+	background-color: #0d6efd;
+	color: white;
+}
+
+.preview-container {
+	margin-top: 10px;
+}
+
+.preview-container img {
+	max-width: 200px;
+	max-height: 200px;
+	object-fit: contain;
+}
+
+.vocab-table img {
+	max-width: 100px;
+	max-height: 100px;
+	object-fit: contain;
+}
+
+.audio-control {
+	max-width: 200px;
+}
+
+.btn-warning {
+	background-color: #ffa500; /* Màu cam */
+	border-color: #ffa500;
+	color: white;
+}
+
+.btn-danger {
+	background-color: #dc3545; /* Màu đỏ */
+	border-color: #dc3545;
+	color: white;
+}
+
+.btn-warning:hover {
+	background-color: #ff8c00; /* Màu cam đậm khi hover */
+	border-color: #ff8c00;
+}
+
+.btn-danger:hover {
+	background-color: #c82333; /* Màu đỏ đậm khi hover */
+	border-color: #bd2130;
+}
+
+.btn-warning, .btn-danger {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	padding: 5px 10px;
+}
+
+.btn-warning i, .btn-danger i {
+	margin-right: 3px;
+}
+
+.clickable-image {
+	cursor: pointer;
+	transition: transform 0.2s;
+}
+
+.clickable-image:hover {
+	transform: scale(1.05);
+}
+
+#modalImage {
+	object-fit: contain;
+}
+</style>
+</head>
+<body>
+	<header>
+		<div th:replace="~{admin/fragments/header::header}"></div>
+	</header>
+	<main class="container">
+		<section>
+			<div class="container-fluid mt-4">
+				<div class="row">
+					<!-- Danh sách Curriculum -->
+					<div class="col-md-3">
+						<div class="card">
+							<div class="card-header">
+								<h4 class="mb-0">Danh sách Curriculum</h4>
+							</div>
+							<div class="card-body">
+								<div id="curriculumList" class="list-group">
+									<!-- Curriculum items sẽ được thêm vào đây -->
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Danh sách từ vựng -->
+					<div class="col-md-9">
+						<div class="card">
+							<div
+								class="card-header d-flex justify-content-between align-items-center">
+								<h4 class="mb-0">Danh sách từ vựng</h4>
+								<button id="addVocabBtn" class="btn btn-primary">
+									<i class="fas fa-plus"></i> Thêm từ mới
+								</button>
+							</div>
+							<div class="card-body">
+								<div class="table-responsive vocab-table">
+									<table class="table table-striped table-hover">
+										<thead>
+											<tr>
+												<th>ID</th>
+												<th>Từ vựng</th>
+												<th>Phát âm</th>
+												<th>Định nghĩa</th>
+												<th>Ví dụ</th>
+												<th>Audio</th>
+												<th>Hình ảnh</th>
+												<th>Thao tác</th>
+											</tr>
+										</thead>
+										<tbody id="vocabTableBody">
+											<!-- Vocabulary items sẽ được thêm vào đây -->
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal thêm/sửa từ vựng -->
+			<div class="modal fade" id="vocabModal" tabindex="-1">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="modalTitle">Thêm từ mới</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+						</div>
+						<div class="modal-body">
+							<form id="vocabForm" enctype="multipart/form-data">
+								<input type="hidden" id="vocabId"> <input type="hidden"
+									id="curriculumId">
+
+								<div class="row">
+									<div class="col-md-6">
+										<div class="mb-3">
+											<label class="form-label">Từ vựng</label> <input type="text"
+												class="form-control" id="word" required>
+										</div>
+										<div class="mb-3">
+											<label class="form-label">Phát âm</label> <input type="text"
+												class="form-control" id="pronunciation" required>
+										</div>
+										<div class="mb-3">
+											<label class="form-label">Định nghĩa</label>
+											<textarea class="form-control" id="definition" rows="3"
+												required></textarea>
+										</div>
+										<div class="mb-3">
+											<label class="form-label">Ví dụ</label>
+											<textarea class="form-control" id="example" rows="3" required></textarea>
+										</div>
+									</div>
+
+									<div class="col-md-6">
+										<div class="mb-3">
+											<label class="form-label">Audio</label> <input type="file"
+												class="form-control" id="audioFile" accept="audio/*">
+											<span id="audioNameDisplay" class="form-text"></span>
+											<div class="preview-container" id="audioPreview">
+												<audio controls class="audio-control mt-2"
+													style="display: none;"></audio>
+											</div>
+										</div>
+										<div class="mb-3">
+											<label class="form-label">Hình ảnh</label> <input type="file"
+												class="form-control" id="imageFile" accept="image/*">
+											<span id="imageNameDisplay" class="form-text"></span>
+											<div class="preview-container" id="imagePreview">
+												<img class="mt-2" style="display: none;">
+											</div>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">Đóng</button>
+							<button type="button" class="btn btn-primary" id="saveVocab">Lưu</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Thêm modal cho hình ảnh -->
+			<div class="modal fade" id="imageModal" tabindex="-1">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+						</div>
+						<div class="modal-body text-center">
+							<img id="modalImage" src="" alt=""
+								style="max-width: 100%; max-height: 80vh;">
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<script>
+        let currentCurriculumId = null;
+        const vocabModal = new bootstrap.Modal(document.getElementById('vocabModal'));
+
+        // Load danh sách Curriculum
+        function loadCurriculums() {
+            fetch('/api/curriculums')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(curriculums => {
+                    const curriculumList = document.getElementById('curriculumList');
+                    curriculumList.innerHTML = '';
+                    if (Array.isArray(curriculums)) {
+                        curriculums.forEach(curriculum => {
+                            const div = document.createElement('div');
+                            div.className = 'curriculum-item';
+                            div.textContent = curriculum.name;
+                            div.onclick = () => {
+                                document.querySelectorAll('.curriculum-item').forEach(item => {
+                                    item.classList.remove('active');
+                                });
+                                div.classList.add('active');
+                                loadVocabularies(curriculum.id);
+                            };
+                            curriculumList.appendChild(div);
+                        });
+                    } else {
+                        console.error('Curriculums data is not an array:', curriculums);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading curriculums:', error);
+                    alert('Lỗi khi tải danh sách curriculum');
+                });
+        }
+
+        // Thêm hàm cleanFileName vào JavaScript
+        function cleanFileName(url) {
+            if (!url) return '';
+            
+            // Lấy tên file từ URL
+            let fileName = url.substring(url.lastIndexOf('/') + 1);
+            
+            // Tách phần mở rộng
+            let extension = '';
+            let lastDotIndex = fileName.lastIndexOf('.');
+            if (lastDotIndex > 0) {
+                extension = fileName.substring(lastDotIndex);
+                fileName = fileName.substring(0, lastDotIndex);
+            }
+            
+            // Tách các phần bằng dấu gạch dưới
+            let parts = fileName.split('_');
+            
+            // Xử lý từng phần
+            let cleanParts = parts
+                .map(part => {
+                    // Chỉ loại bỏ timestamp ở đầu tên file
+                    if (parts.indexOf(part) === 0 && /^\d+$/.test(part)) {
+                        return '';
+                    }
+                    return part;
+                })
+                .filter(part => part.trim() !== ''); // Loại bỏ phần rỗng
+            
+            // Kết hợp lại với dấu gạch dưới
+            let cleanName = cleanParts.join('_');
+            
+            // Kết hợp lại với phần base URL
+            let baseUrl = url.substring(0, url.lastIndexOf('/') + 1);
+            return baseUrl + cleanName + extension;
+        }
+
+        // Load danh sách từ vựng theo Curriculum
+        function loadVocabularies(curriculumId) {
+            currentCurriculumId = curriculumId;
+            fetch(`/api/vocabularies/curriculums/${curriculumId}`)
+                .then(response => response.json())
+                .then(vocabularies => {
+                    const tbody = document.getElementById('vocabTableBody');
+                    tbody.innerHTML = '';
+                    if (Array.isArray(vocabularies)) {
+                        vocabularies.forEach(vocab => {
+                            // Làm sạch URL cho audio và image
+                            const cleanedAudioUrl = vocab.audio ? cleanFileName(vocab.audio) : '';
+                            const cleanedImageUrl = vocab.image ? cleanFileName(vocab.image) : '';
+                            
+                            const audioHtml = cleanedAudioUrl ? 
+                                `<audio controls class="audio-control">
+                                    <source src="${cleanedAudioUrl}" type="audio/mpeg">
+                                </audio>` : '';
+                            const imageHtml = vocab.image ? 
+                                `<img src="${vocab.image}" alt="${vocab.word}" class="clickable-image" onclick="showImage('${vocab.image}')">` : '';
+                            
+                            tbody.innerHTML += `
+                                <tr>
+                                    <td>${vocab.id || ''}</td>
+                                    <td>${vocab.word || ''}</td>
+                                    <td>${vocab.pronunciation || ''}</td>
+                                    <td>${vocab.definition || ''}</td>
+                                    <td>${vocab.example || ''}</td>
+                                    <td>${audioHtml}</td>
+                                    <td>${imageHtml}</td>
+                                    <td>
+                                        <button onclick="editVocab(${vocab.id})" class="btn btn-sm btn-warning" title="Sửa">
+                                            <i class="fas fa-edit"></i> Sửa
+                                        </button>
+                                        <button onclick="deleteVocab(${vocab.id})" class="btn btn-sm btn-danger" title="Xóa">
+                                            <i class="fas fa-trash"></i> Xóa
+                                        </button>
+                                    </td>
+                                </tr>
+                            `;
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading vocabularies:', error);
+                    alert('Lỗi khi tải danh sách từ vựng');
+                });
+        }
+
+        // Preview audio và image khi chọn file mới
+        document.getElementById('audioFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const audio = document.querySelector('#audioPreview audio');
+            const audioNameDisplay = document.querySelector('#audioNameDisplay');
+            
+            if (file) {
+                const url = URL.createObjectURL(file);
+                audio.src = url;
+                audio.style.display = 'block';
+                audioNameDisplay.textContent = file.name;
+            }
+        });
+
+        document.getElementById('imageFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const img = document.querySelector('#imagePreview img');
+            const imageNameDisplay = document.querySelector('#imageNameDisplay');
+            
+            if (file) {
+                const url = URL.createObjectURL(file);
+                img.src = url;
+                img.style.display = 'block';
+                imageNameDisplay.textContent = file.name;
+            }
+        });
+
+        // Thêm từ mới
+        document.getElementById('addVocabBtn').onclick = () => {
+            if (!currentCurriculumId) {
+                alert('Vui lòng chọn Curriculum trước');
+                return;
+            }
+            document.getElementById('vocabForm').reset();
+            document.getElementById('vocabId').value = '';
+            document.getElementById('curriculumId').value = currentCurriculumId;
+            document.getElementById('modalTitle').textContent = 'Thêm từ mới';
+            document.querySelector('#audioPreview audio').style.display = 'none';
+            document.querySelector('#imagePreview img').style.display = 'none';
+            vocabModal.show();
+        };
+
+        // Sửa từ vựng
+        function editVocab(id) {
+            fetch(`/api/vocabularies/${id}`)
+                .then(response => response.json())
+                .then(vocab => {
+                    document.getElementById('vocabId').value = vocab.id;
+                    document.getElementById('word').value = vocab.word;
+                    document.getElementById('pronunciation').value = vocab.pronunciation;
+                    document.getElementById('definition').value = vocab.definition;
+                    document.getElementById('example').value = vocab.example;
+                    document.getElementById('curriculumId').value = currentCurriculumId;
+                    
+                    // Reset file inputs
+                    document.getElementById('audioFile').value = '';
+                    document.getElementById('imageFile').value = '';
+                    
+                    // Xử lý audio preview
+                    const audio = document.querySelector('#audioPreview audio');
+                    const audioNameDisplay = document.querySelector('#audioNameDisplay');
+                    if (vocab.audio) {
+                        audio.src = vocab.audio;
+                        audio.style.display = 'block';
+                        // Hiển thị tên file từ URL
+                        const audioFileName = vocab.audio.split('/').pop();
+                        audioNameDisplay.textContent = audioFileName;
+                    } else {
+                        audio.style.display = 'none';
+                        audio.src = '';
+                        audioNameDisplay.textContent = '';
+                    }
+                    
+                    // Xử lý image preview
+                    const img = document.querySelector('#imagePreview img');
+                    const imageNameDisplay = document.querySelector('#imageNameDisplay');
+                    if (vocab.image) {
+                        img.src = vocab.image;
+                        img.style.display = 'block';
+                        // Hiển thị tên file từ URL
+                        const imageFileName = vocab.image.split('/').pop();
+                        imageNameDisplay.textContent = imageFileName;
+                    } else {
+                        img.style.display = 'none';
+                        img.src = '';
+                        imageNameDisplay.textContent = '';
+                    }
+                    
+                    document.getElementById('modalTitle').textContent = 'Sửa từ vựng';
+                    vocabModal.show();
+                });
+        }
+
+        // Lưu từ vựng
+        document.getElementById('saveVocab').onclick = async () => {
+            if (!currentCurriculumId) {
+                alert('Vui lòng chọn Curriculum trước');
+                return;
+            }
+
+            const formData = new FormData();
+            const vocabId = document.getElementById('vocabId').value;
+            
+            formData.append('word', document.getElementById('word').value);
+            formData.append('pronunciation', document.getElementById('pronunciation').value);
+            formData.append('definition', document.getElementById('definition').value);
+            formData.append('example', document.getElementById('example').value);
+            
+            
+            // Xử lý audio
+            const audioInput = document.getElementById('audioFile');
+            const audioPreview = document.querySelector('#audioPreview audio');
+
+            if (audioInput.files[0]) {
+                // Có file mới
+                formData.append('audio', audioInput.files[0]);
+            } else if (audioPreview.src && audioPreview.src.includes('trumtuvung.com')) {
+                // Giữ URL cũ
+                formData.append('audioUrl', audioPreview.src);
+            }
+
+            // Xử lý image
+            const imageInput = document.getElementById('imageFile');
+            const imagePreview = document.querySelector('#imagePreview img');
+            
+            if (imageInput.files[0]) {
+                // Có file mới
+                formData.append('image', imageInput.files[0]);
+            } else if (imagePreview.src && imagePreview.src.includes('trumtuvung.com')) {
+                // Giữ URL cũ
+                formData.append('imageUrl', imagePreview.src);
+            }
+            
+
+            try {
+                const url = vocabId ? 
+                    `/api/vocabularies/${vocabId}` : 
+                    `/api/curriculums/${currentCurriculumId}/vocabularies`;
+                    
+                const response = await fetch(url, {
+                    method: vocabId ? 'PUT' : 'POST',
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(errorText);
+                }
+                
+                vocabModal.hide();
+                loadVocabularies(currentCurriculumId);
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Lỗi: ' + error.message);
+            }
+        };
+
+        // Xóa từ vựng
+        function deleteVocab(id) {
+            if (confirm('Bạn có chắc muốn xóa từ này?')) {
+                fetch(`/api/vocabularies/${id}`, {
+                    method: 'DELETE'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        loadVocabularies(currentCurriculumId);
+                    } else {
+                        throw new Error('Lỗi khi xóa từ vựng');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Có lỗi xảy ra khi xóa từ vựng');
+                });
+            }
+        }
+
+        // Thêm hàm xử lý click hình ảnh
+        function showImage(imageUrl) {
+            const modalImage = document.getElementById('modalImage');
+            modalImage.src = imageUrl;
+            const imageModal = new bootstrap.Modal(document.getElementById('imageModal'));
+            imageModal.show();
+        }
+
+        // Khởi tạo trang
+        loadCurriculums();
+    </script>
+	<footer>
+		<div th:replace="~{admin/fragments/footer::footer}"></div>
+	</footer>
+</body>
+</html>

@@ -13,4 +13,6 @@ import vn.hoctienganh.entity.Curriculum;
 public interface CurriculumRepository extends JpaRepository<Curriculum, Integer>{
 	@Query("SELECT c.name FROM StudyRecord sr JOIN sr.curriculums c WHERE sr.id = :studyRecordId")
     List<String> findCurriculumNamesByStudyRecordId(@Param("studyRecordId") int studyRecordId);
+	
+	Curriculum findByName(String name);
 }
