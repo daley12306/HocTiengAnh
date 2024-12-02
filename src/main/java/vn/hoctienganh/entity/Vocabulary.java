@@ -1,12 +1,11 @@
 package vn.hoctienganh.entity;
 
-import java.time.LocalDateTime;
-
 import jakarta.persistence.*;
 import lombok.*;
 
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "vocabulary")
 public class Vocabulary {
@@ -23,10 +22,9 @@ public class Vocabulary {
     private String example;
     private String audio;
     private String image;
-
+    
     @ManyToOne
     @JoinColumn(name = "curriculum_id")
     private Curriculum curriculum;
-
-    // Getters and Setters
+    
 }

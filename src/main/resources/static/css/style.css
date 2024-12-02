@@ -1,4 +1,187 @@
 @charset "UTF-8";
+/* General Styles */
+.learning-program-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Bahnschrift', 'Segoe UI', sans-serif;
+}
+
+/* Logo Section */
+.logo-container {
+	display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    margin-bottom: 60px;
+}
+
+.logo {
+    width: 300px;
+    height: 300px;
+}
+
+/* ComboBox Section */
+.combobox-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+    margin-bottom: 30px;
+    gap: 10px;
+}
+
+.combobox-label {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+.combobox {
+    width: 300px; /* Giảm kích thước chiều rộng của combobox */
+    height: 50px; /* Chiều cao combobox */
+    border: 1px solid #F2BED1;
+    border-radius: 5px; /* Bo góc */
+    padding: 5px 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    color: #333;
+}
+
+.dropdown-icon {
+    width: 14px;
+    height: 14px;
+    margin-left: -24px; /* Căn icon gần combobox hơn */
+}
+
+/* Line with Label Section */
+.line-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.line {
+    width: 90%;
+    border: 2;
+    border-top: 1px solid #EB9AB8;
+    position: relative;
+    height: 1px;
+    margin-top: 30px;
+}
+
+.line-label {
+    position: absolute;
+    top: -12px; /* Di chuyển dòng chữ lên trên */
+    left: 10%; /* Đặt chữ sang bên trái, cách lề 10% của đường line */
+    background-color: white; /* Nền trắng để che đường line */
+    padding: 0 10px; /* Thêm khoảng cách giữa chữ và nền */
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+
+/* Button Section */
+.button-container {
+    display: flex;
+    justify-content: space-around; /* Khoảng cách đều giữa các hình */
+    gap: 30px; /* Khoảng cách giữa các hình */
+    margin-top: 20px; /* Khoảng cách trên */
+}
+
+.button-learn {
+	position: relative; /* Để nội dung nằm chồng lên hình */
+    display: inline-block;
+    width: 200px; /* Chiều rộng của hình */
+    height: 300px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    overflow: hidden; 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.button-learn img {
+    width: 100%; /* Đặt kích thước hình ảnh */
+    height: 100%;
+    object-fit: cover;
+}
+
+.button-learn span {
+    position: absolute; /* Đặt chữ chồng lên ảnh */
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Căn giữa chữ */
+    font-family: 'Bahnschrift SemiBold', sans-serif;
+    font-size: 20px;
+    color: white; /* Màu chữ */
+    z-index: 1; /* Đảm bảo chữ luôn ở trên ảnh */
+}
+
+
+body {
+    background-image: url('/img/wave-background.png');
+    background-size: cover; /* Đảm bảo ảnh phủ kín màn hình */
+    background-position: center center; /* Đảm bảo ảnh căn giữa */
+    background-attachment: fixed; /* Giữ ảnh nền khi cuộn trang */
+}
+
+.confetti {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background-color: #f39c12; /* Màu mặc định */
+  animation: confetti-fall 5s ease-in-out forwards; /* forwards để dừng lại sau khi animation kết thúc */
+  opacity: 0;
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(100vh) rotate(180deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0; /* Mảnh giấy sẽ biến mất sau khi rơi xuống */
+  }
+}
+
+/* Các mảnh giấy với màu sắc ngẫu nhiên */
+.confetti:nth-child(odd) {
+  background-color: #e74c3c; /* Màu đỏ */
+}
+
+.confetti:nth-child(3n) {
+  background-color: #2ecc71; /* Màu xanh lá */
+}
+
+.confetti:nth-child(5n) {
+  background-color: #3498db; /* Màu xanh dương */
+}
+
+.confetti:nth-child(7n) {
+  background-color: #9b59b6; /* Màu tím */
+}
+
+.confetti:nth-child(11n) {
+  background-color: #f1c40f; /* Màu vàng */
+}
+
+.confetti:nth-child(13n) {
+  background-color: #1abc9c; /* Màu xanh ngọc */
+}
 .avatar {
     display: inline-flex;
     justify-content: center;

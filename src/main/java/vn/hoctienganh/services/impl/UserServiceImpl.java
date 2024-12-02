@@ -1,4 +1,6 @@
-package vn.hoctienganh.services;
+package vn.hoctienganh.services.impl;
+
+
 
 import java.util.List;
 
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import vn.hoctienganh.entity.User;
 import vn.hoctienganh.repository.UserRepository;
+import vn.hoctienganh.services.UserService;
 
 @Service
 public class UserServiceImpl implements UserService{

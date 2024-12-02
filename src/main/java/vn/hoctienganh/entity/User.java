@@ -2,7 +2,6 @@ package vn.hoctienganh.entity;
 
 import java.io.Serializable;
 import java.util.List;
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -40,8 +39,8 @@ public class User implements Serializable{
     
     private Boolean isVerified = false; // Mặc định là false, khi chưa xác thực
     
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<StudyRecord> studyRecords;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private StudyRecord studyRecords;
     
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<PostLike> postLikes;
@@ -53,6 +52,7 @@ public class User implements Serializable{
     public void login() {}
     public void register() {}
     public void resetPassword() {}
+    
 
     // Getters and Setters
 }
