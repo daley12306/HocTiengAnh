@@ -123,28 +123,7 @@
     z-index: 1; /* Đảm bảo chữ luôn ở trên ảnh */
 }
 
-/* .wave-top-left {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 300px; Width of wave
-    height: 300px; Height of wave
-    background: url('/img/wave-top-left.png') no-repeat center center;
-    background-size: cover;
-    opacity: 0.75; Set opacity
-    z-index: -1; Ensure it stays behind other content
-}
 
-.wave-bottom-right {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 100px; Width of wave
-    height: 100px; Height of wave
-    background: url('/img/wave-bottom-right.png') no-repeat center center;
-    background-size: cover;
-    z-index: -1; Ensure it stays behind other content
-} */
 body {
     background-image: url('/img/wave-background.png');
     background-size: cover; /* Đảm bảo ảnh phủ kín màn hình */
@@ -152,3 +131,53 @@ body {
     background-attachment: fixed; /* Giữ ảnh nền khi cuộn trang */
 }
 
+.confetti {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background-color: #f39c12; /* Màu mặc định */
+  animation: confetti-fall 5s ease-in-out forwards; /* forwards để dừng lại sau khi animation kết thúc */
+  opacity: 0;
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(100vh) rotate(180deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0; /* Mảnh giấy sẽ biến mất sau khi rơi xuống */
+  }
+}
+
+/* Các mảnh giấy với màu sắc ngẫu nhiên */
+.confetti:nth-child(odd) {
+  background-color: #e74c3c; /* Màu đỏ */
+}
+
+.confetti:nth-child(3n) {
+  background-color: #2ecc71; /* Màu xanh lá */
+}
+
+.confetti:nth-child(5n) {
+  background-color: #3498db; /* Màu xanh dương */
+}
+
+.confetti:nth-child(7n) {
+  background-color: #9b59b6; /* Màu tím */
+}
+
+.confetti:nth-child(11n) {
+  background-color: #f1c40f; /* Màu vàng */
+}
+
+.confetti:nth-child(13n) {
+  background-color: #1abc9c; /* Màu xanh ngọc */
+}

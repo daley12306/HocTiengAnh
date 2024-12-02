@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/user/layout.html}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/user/layout.html}">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chúc mừng</title>
 </head>
 
 <body layout:fragment="content">
-    <h1 th:text="${message}">Chúc mừng bạn đã hoàn thành!</h1>
-    <p>Bạn đã hoàn thành tất cả các flashcard trong chương trình học này.</p>
-    <a th:href="@{/study/{id}(id=${id})}" class="btn">Quay lại học tiếp</a>
+
+	<h1 th:text="${message}">Chúc mừng bạn đã hoàn thành!</h1>
+	<p>Bạn đã hoàn thành tất cả các flashcard trong chương trình học này.</p>
+	<a th:href="@{/study/{id}(id=${id})}" class="btn">Quay lại học tiếp</a>
+
 </body>
 </html>
