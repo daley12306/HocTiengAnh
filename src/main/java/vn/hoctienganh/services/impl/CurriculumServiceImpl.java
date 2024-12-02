@@ -7,16 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
 import vn.hoctienganh.entity.Curriculum;
 import vn.hoctienganh.repository.CurriculumRepository;
 import vn.hoctienganh.services.CurriculumService;
 
+@Service
 public class CurriculumServiceImpl implements CurriculumService {
 	@Autowired
 	CurriculumRepository curriculumRepository;
 
-	
 
 	@Override
 	public long count() {
@@ -52,5 +53,10 @@ public class CurriculumServiceImpl implements CurriculumService {
 	public void deleteById(int id) {
 		curriculumRepository.deleteById(id);	
 	}
+
+	@Override
+	public List<String> getCurriculumNamesByStudyRecordId(int studyRecordId) {
+        return curriculumRepository.findCurriculumNamesByStudyRecordId(studyRecordId);
+    }
 
 }

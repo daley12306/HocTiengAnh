@@ -23,4 +23,6 @@ public interface CurriculumService {
 	List<Curriculum> findAll(Sort sort);
 
 	<S extends Curriculum> S save(S entity);
+	
+	List<String> getCurriculumNamesByStudyRecordId(int studyRecordId);
 }

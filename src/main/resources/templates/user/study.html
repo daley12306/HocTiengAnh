@@ -9,6 +9,7 @@
 
 
 <body layout:fragment="content">
+
 	<!-- Container for the entire layout -->
 	<div class="learning-program-container">
 		<!-- Logo Section -->
@@ -20,9 +21,11 @@
 		<div class="combobox-container">
 			<label for="topic-select" class="combobox-label">Chọn chủ đề</label>
 			<select id="topic-select" class="combobox">
-				<option value="topic1">Chủ đề 1</option>
-				<option value="topic2">Chủ đề 2</option>
-				<option value="topic3">Chủ đề 3</option>
+				<option value="">Chọn chủ đề</option>
+				<!-- Lặp qua danh sách curriculumNames từ model -->
+				<th:block th:each="curriculum : ${curriculumNames}">
+					<option th:value="${curriculum}" th:text="${curriculum}"></option>
+				</th:block>
 			</select> <img src="/img/down.png" alt="Dropdown" class="dropdown-icon">
 		</div>
 
@@ -35,15 +38,24 @@
 
 		<!-- Button Section -->
 		<div class="button-container">
-			<button class="button-learn">Button 1</button>
-			<button class="button-learn">Button 2</button>
-			<button class="button-learn">Button 3</button>
-			<button class="button-learn">Button 4</button>
-			<button class="button-learn">Button 5</button>
+			<div class="button-container">
+				<button class="button-learn">
+					<img src="/img/button.png" alt="Button 1"> <span>Flash Card</span>
+				</button>
+				<button class="button-learn">
+					<img src="/img/button.png" alt="Button 2"> <span>Điền từ vào chỗ trống </span>
+				</button>
+				<button class="button-learn">
+					<img src="/img/button.png" alt="Button 3"> <span>Nối/Ghép từ</span>
+				</button>
+				<button class="button-learn">
+					<img src="/img/button.png" alt="Button 4"> <span>Nghe viết lại từ</span>
+				</button>
+			</div>
 		</div>
 	</div>
-	
-	
+
+
 </body>
 
 </html>

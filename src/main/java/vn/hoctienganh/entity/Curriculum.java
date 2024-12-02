@@ -15,6 +15,7 @@ public class Curriculum {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column( columnDefinition = "NVARCHAR(MAX) COLLATE Vietnamese_CI_AS")
     private String name;
 
     @ManyToMany(mappedBy = "curriculums", cascade = CascadeType.ALL)
