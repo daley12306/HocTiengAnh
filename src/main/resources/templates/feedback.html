@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout.html}">
+<head>
+<meta charset="UTF-8">
+<title>Capylingo | Feedback</title>
+</head>
+
+<body layout:fragment="content" style="background-color: #f9e8ee">
+	<div class="row rounded-3 p-5 mx-5" style="background-color: white">
+		<div
+			class="col d-flex justify-content-top align-items-center flex-column gap-3">
+			<img src="img/logo.png" alt="logo" width="200" height="200" />
+			<h4>Miêu tả vấn đề của bạn</h4>
+			<p class="mx-5">Vui lòng mô tả vấn đề bạn đang gặp phải càng chi
+				tiết càng tốt. Điều này sẽ giúp chúng tôi hiểu được điều gì đang xảy
+				ra.</p>
+		</div>
+		<div class="col">
+			<form action="/feedback/save" method="post" th:object="${feedback}">
+<!-- 				Student ID is handled by the model object, don't manually add it -->
+				<div class="form-group mb-3">
+					<input type="hidden" name="student_id"
+						th:value="${feedback.student.id}" th:field="*{student}"/>
+				</div>
+
+				<div class="form-group mb-3">
+					<label class="fw-bold">Email của bạn <span
+						class="text-danger">*</span></label> <input type="email"
+						class="form-control w-100" id="email"
+						placeholder="name@example.com" th:field="*{email}" required>
+				</div>
+				<div class="form-group mb-3">
+					<label class="fw-bold">Chủ đề <span class="text-danger">*</span></label>
+					<input type="text" class="form-control w-100" id="subject"
+						th:field="*{subject}" required>
+				</div>
+				<div class="form-group mb-3">
+					<label class="fw-bold">Mô tả <span class="text-danger">*</span></label>
+					<textarea class="form-control w-100" style="height: 200px"
+						id="description" th:field="*{description}" required></textarea>
+				</div>
+				<div class="form-group mb-4">
+					<label for="formFile" class="fw-bold">File đính kèm</label> <input
+						class="form-control w-100" type="file" id="formFile" />
+				</div>
+				<button type="submit" class="btn px-5"
+					style="background-color: #EB9AB8; color: white;">Gửi</button>
+			</form>
+
+		</div>
+	</div>
+</body>
+</html>
