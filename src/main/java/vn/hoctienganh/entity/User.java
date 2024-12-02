@@ -22,7 +22,8 @@ public class User {
 
     @Column(nullable = false)
     private String password;
-
+    
+    @Column(columnDefinition = "nvarchar(255)")
     private String fullName;
     private String email;
     private String address;
