@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layout_admin.html}">
+<head>
+<meta charset="UTF-8">
+<title>Capylingo | Feedback</title>
+</head>
+
+<body layout:fragment="content">
+	<div class="container border border-3 rounded-3 p-5 mx-5">
+		<div class="row">
+			<div class="col">
+				<form action="/feedback/save" method="post" th:object="${feedback}">
+				<div class="form-group mb-3">
+					<input type="hidden" name="student_id"
+						th:value="${feedback.student.id}" th:field="*{student}"/>
+				</div>
+				<div class="form-group mb-3">
+					<label class="fw-bold">Email</label> <input type="email"
+						class="form-control w-100" id="email"
+						placeholder="name@example.com" th:field="*{email}">
+				</div>
+				<div class="form-group mb-3">
+					<label class="fw-bold">Chủ đề </label>
+					<input type="text" class="form-control w-100" id="subject"
+						th:field="*{subject}" required>
+				</div>
+				<div class="form-group mb-3">
+					<label class="fw-bold">Mô tả </label>
+					<textarea class="form-control w-100" style="height: 200px"
+						id="description" th:field="*{description}" required></textarea>
+				</div>
+				<div class="form-group mb-4">
+					<label for="formFile" class="fw-bold">File đính kèm</label><br>
+					<img width="300px" th:if="${feedback.getImage() != null}" th:src="${feedback.getImage()}" alt="image"> 
+					<span th:unless="${feedback.image != null}">Không có ảnh</span>
+				</div>
+			</form>
+
+			</div>
+			<div class="col">
+				<form th:action="@{/admin/feedbacks/send/{id}(id=${feedback.getId()})}" method="post" th:object="${feedback}">
+					<div class="form-group mb-3">
+						<label class="fw-bold">Chủ đề <span class="text-danger">*</span></label>
+						<input class="form-control w-100" name="subject" required></input>
+					</div>
+					<div class="form-group mb-3">
+						<label class="fw-bold">Nội dung <span class="text-danger">*</span></label>
+						<textarea class="form-control w-100"
+							style="height: 200px" name ="content" required></textarea>
+					</div>
+					<button type="submit" class="btn px-5"
+						style="background-color: #EB9AB8; color: white;">Gửi</button>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>

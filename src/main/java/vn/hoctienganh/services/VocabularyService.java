@@ -1,29 +1,45 @@
 package vn.hoctienganh.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import vn.hoctienganh.entity.Vocabulary;
-import vn.hoctienganh.repository.VocabularyRepository;
-
-import java.util.Collections;
 import java.util.List;
-import java.util.Random;
+import java.util.Map;
+import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
+import vn.hoctienganh.entity.Vocabulary;
 
 @Service
-public class VocabularyService {
-    private final VocabularyRepository vocabularyRepository;
+public interface VocabularyService {
+	void deleteById(int id);
 
-    @Autowired
-    public VocabularyService(VocabularyRepository vocabularyRepository) {
-        this.vocabularyRepository = vocabularyRepository;
-    }
+	long count();
 
-    public List<Vocabulary> getAllVocabulary() {
-        return vocabularyRepository.findAll();
-    }
+	Optional<Vocabulary> findById(int id);
+	
+	List<Vocabulary> findAll();
 
-    // Cập nhật câu ví dụ với từ vựng
-    public void updateVocabularyMatches(List<Vocabulary> vocabularyList) {
+	Page<Vocabulary> findAll(Pageable pageable);
+
+	List<Vocabulary> findAll(Sort sort);
+
+	<S extends Vocabulary> S save(S entity);
+	
+	List<Vocabulary> findWordsByCurriculumName(String name);
+
+	List<Vocabulary> findByCurriculumId(Integer curriculumId);
+
+	List<Vocabulary> getAllVocabularies();
+    Vocabulary getVocabularyById(Integer id);
+    Vocabulary saveVocabulary(Vocabulary vocabulary);
+    void deleteVocabulary(Integer id);
+    List<Map<String, Object>> getVocabulariesForMatching();
+    Vocabulary getVocabularyByWord(String word);
+    Vocabulary getRandomWord();
+  
+  public void updateVocabularyMatches(List<Vocabulary> vocabularyList) {
         for (Vocabulary vocabulary : vocabularyList) {
             String word = vocabulary.getWord();
             String example = vocabulary.getExample();

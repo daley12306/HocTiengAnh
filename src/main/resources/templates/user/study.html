@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/user/layout.html}">
+<head>
+<meta charset="UTF-8">
+<title>Study</title>
+</head>
+
+
+<body layout:fragment="content">
+
+	<form
+		th:action="@{/study/{id}/flashcard(id=${id})}"
+		method="post">
+		<!-- Container for the entire layout -->
+		<div class="learning-program-container">
+			<!-- Logo Section -->
+			<div class="logo-container">
+				<img src="/img/logo.png" alt="Logo" class="logo">
+			</div>
+
+			<!-- ComboBox Section -->
+			<div class="combobox-container">
+				<label for="topic-select" class="combobox-label">Chọn chủ đề</label>
+				<select id="topic-select" name="curriculum_name" class="combobox">
+					<option value="">Chọn chủ đề</option>
+					<th:block th:each="curriculum : ${curriculumNames}">
+						<option th:name="${curriculum}" th:value="${curriculum}"
+							th:text="${curriculum}"></option>
+					</th:block>
+				</select> <input type="hidden" id="selected-name" name="selectedName">
+				<img src="/img/down.png" alt="Dropdown" class="dropdown-icon">
+			</div>
+
+			<!-- Line with label -->
+			<div class="line-container">
+				<span class="line-label">Hình thức học</span>
+				<hr class="line">
+
+			</div>
+
+			<!-- Button Section -->
+			<div class="button-container">
+				<div class="button-container">
+					<button type="submit" class="button-learn">
+						<img src="/img/button.png" alt="Button 1"> <span>Flash
+							Card</span>
+					</button>
+					<button class="button-learn">
+						<img src="/img/button.png" alt="Button 2"> <span>Điền
+							từ vào chỗ trống </span>
+					</button>
+					<button class="button-learn">
+						<img src="/img/button.png" alt="Button 3"> <span>Nối/Ghép
+							từ</span>
+					</button>
+					<button class="button-learn">
+						<img src="/img/button.png" alt="Button 4"> <span>Nghe
+							viết lại từ</span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
+
+</body>
+
+</html>

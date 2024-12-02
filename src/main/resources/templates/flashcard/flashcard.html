@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/flashcard/layout.html}">
+<head>
+<meta charset="UTF-8">
+<title>FlashCard</title>
+</head>
+
+<body layout:fragment="content">
+	<div class="card-container">
+        <div class="card">
+            <div class="front">
+                <p class="front-text" th:text="${vocabularyList[currentIndex].word}">Front Side</p>
+                <img src="/img/front.png" alt="Front Image">
+            </div>
+            <div class="back">
+                <p class="back-text" th:text="${vocabularyList[currentIndex].definition}">Back Side</p>
+                <img src="/img/back.png" alt="Back Image">
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
