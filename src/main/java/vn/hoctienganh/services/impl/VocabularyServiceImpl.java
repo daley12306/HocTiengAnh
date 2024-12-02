@@ -1,7 +1,5 @@
 package vn.hoctienganh.services.impl;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import vn.hoctienganh.entity.Curriculum;
 import vn.hoctienganh.entity.Vocabulary;
 import vn.hoctienganh.repository.VocabularyRepository;
 import vn.hoctienganh.services.VocabularyService;
@@ -58,8 +55,10 @@ public class VocabularyServiceImpl implements VocabularyService {
 	}
 
 	@Override
-	public List<Vocabulary> findByCurriculum(Curriculum curriculum) {
-		return vocabularyRepository.findByCurriculum(curriculum);
+	public List<Vocabulary> findWordsByCurriculumName(String name) {
+		return vocabularyRepository.findWordsByCurriculumName(name);
 	}
+
+	
 
 }

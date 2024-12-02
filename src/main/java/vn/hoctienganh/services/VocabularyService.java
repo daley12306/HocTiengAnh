@@ -6,10 +6,11 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
 import vn.hoctienganh.entity.Vocabulary;
-import vn.hoctienganh.entity.Curriculum;
 
+@Service
 public interface VocabularyService {
 	void deleteById(int id);
 
@@ -25,6 +26,6 @@ public interface VocabularyService {
 
 	<S extends Vocabulary> S save(S entity);
 	
-	List<Vocabulary> findByCurriculum(Curriculum curriculum);
+	List<Vocabulary> findWordsByCurriculumName(String name);
 
 }
