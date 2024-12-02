@@ -1,6 +1,7 @@
 package vn.hoctienganh.services;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -29,5 +30,13 @@ public interface VocabularyService {
 	List<Vocabulary> findWordsByCurriculumName(String name);
 
 	List<Vocabulary> findByCurriculumId(Integer curriculumId);
+
+	List<Vocabulary> getAllVocabularies();
+    Vocabulary getVocabularyById(Integer id);
+    Vocabulary saveVocabulary(Vocabulary vocabulary);
+    void deleteVocabulary(Integer id);
+    List<Map<String, Object>> getVocabulariesForMatching();
+    Vocabulary getVocabularyByWord(String word);
+    Vocabulary getRandomWord();
 
 }

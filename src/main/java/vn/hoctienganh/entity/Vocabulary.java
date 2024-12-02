@@ -9,7 +9,7 @@ import lombok.*;
 @Entity
 @Table(name = "vocabulary")
 public class Vocabulary {
-    @Id
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
