@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1d1d1d;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            margin: 20px 0;
+        }
+
+        .answer-button {
+            background-color: #282828;
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .answer-button:hover {
+            background-color: #444444;
+        }
+
+        .check-button {
+            margin-top: 20px;
+            background-color: #66bb6a;
+            border: none;
+            color: #ffffff;
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .check-button:disabled {
+            background-color: #999;
+            cursor: not-allowed;
+        }
+
+        .feedback {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Điền vào chỗ trống</h1>
+    <p><strong>Would you like to sit next to <span>_____</span>?</strong></p>
+
+    <div class="button-container">
+        <button class="answer-button" onclick="selectAnswer('me')">me</button>
+        <button class="answer-button" onclick="selectAnswer('I')">I</button>
+        <button class="answer-button" onclick="selectAnswer('my')">my</button>
+    </div>
+
+    <button class="check-button" id="checkButton" onclick="checkAnswer()" disabled>KIỂM TRA</button>
+
+    <div class="feedback" id="feedback"></div>
+
+    <script>
+        let selectedAnswer = null;
+        const correctAnswer = "me"; // Đáp án đúng (thay bằng dữ liệu động trong thực tế)
+
+        // Hàm chọn đáp án
+        function selectAnswer(answer) {
+            selectedAnswer = answer;
+
+            // Đánh dấu nút đã chọn
+            const buttons = document.querySelectorAll('.answer-button');
+            buttons.forEach(button => {
+                button.style.backgroundColor = '#282828'; // Màu mặc định
+            });
+            event.target.style.backgroundColor = '#444444'; // Màu cho nút được chọn
+
+            // Kích hoạt nút "KIỂM TRA"
+            document.getElementById('checkButton').disabled = false;
+        }
+
+        // Hàm kiểm tra đáp án
+        function checkAnswer() {
+            const feedback = document.getElementById('feedback');
+            if (selectedAnswer === correctAnswer) {
+                feedback.innerHTML = "Tuyệt! Bạn làm đúng rồi!";
+                feedback.style.color = "green";
+            } else {
+                feedback.innerHTML = "Tiếc quá, hãy thử lại sau nhé.";
+                feedback.style.color = "red";
+            }
+
+            // Vô hiệu hóa tất cả các nút
+            const buttons = document.querySelectorAll('.answer-button');
+            buttons.forEach(button => button.disabled = true);
+
+            // Vô hiệu hóa nút "KIỂM TRA"
+            document.getElementById('checkButton').disabled = true;
+        }
+    </script>
+</body>
+</html>

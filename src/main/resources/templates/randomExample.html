@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Random Vocabulary Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F8E8EE; /* Màu nền */
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #F499A3; /* Màu tiêu đề */
+        }
+        
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #FFD78F; /* Màu nền nút */
+            color: #333;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .correct {
+            background-color: #28A745; /* Màu cho nút đúng */
+        }
+
+        .incorrect {
+            background-color: #DC3545; /* Màu cho nút sai */
+        }
+
+        button:hover {
+            background-color: #EB9AB8; /* Màu khi hover */
+        }
+
+        button:disabled {
+            background-color: #FDCEDF; /* Màu cho nút bị vô hiệu */
+            cursor: not-allowed;
+        }
+        
+        
+        .selected {
+            background-color: #99a3f4 !important; /* Màu khi chọn */
+        }
+
+        .check-button {
+            background-color: #d93786; /* Màu cho nút kiểm tra */
+        }
+
+        .feedback {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        #continueButton {
+            display: none;
+        }
+
+        .answer-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Điền từ vào chỗ trống</h1>
+
+    <p><strong>Question:</strong> <span th:text="${match}"></span></p>
+
+    <div class="answer-container" id="answerContainer">
+        <button class="answer-button" onclick="selectAnswer(this, this.innerText.trim())">
+            [[${word}]]
+        </button>
+        
+        <button class="answer-button" onclick="selectAnswer(this, this.innerText.trim())">
+            [[${randomWords[0]}]]
+        </button>
+        <button class="answer-button" onclick="selectAnswer(this, this.innerText.trim())">
+            [[${randomWords[1]}]]
+        </button>
+    </div>
+
+    <br>
+    <div class="button-container">
+        <button class="check-button" id="checkButton" onclick="checkAnswer()" disabled>KIỂM TRA</button>
+        <button id="continueButton" style="display: none;" onclick="continueGame()">Tiếp tục</button>
+    </div>
+
+    <div class="feedback" id="feedback"></div>
+    <div class="correct-answer" id="correctAnswer" style="display: none;"></div>
+
+    <script>
+        let selectedAnswer = null;
+        const correctAnswer = '[[${word}]]';
+        
+        
+
+        function selectAnswer(button, answer) {
+            selectedAnswer = answer;
+            const buttons = document.querySelectorAll('.answer-button');
+            buttons.forEach(btn => btn.classList.remove('selected'));
+            button.classList.add('selected');
+            document.getElementById('checkButton').disabled = false;
+        }
+
+        function checkAnswer() {
+            const feedback = document.getElementById('feedback');
+            const buttons = document.querySelectorAll('.answer-button');
+            
+            console.log("Correct answer:", correctAnswer);
+            console.log("Selected answer:", selectedAnswer);
+
+            if (selectedAnswer.trim() === correctAnswer.trim()) {
+                feedback.innerHTML = "Làm tốt lắm!";
+                feedback.style.color = "#28A745"; /* Màu xanh cho câu trả lời đúng */
+                buttons.forEach(btn => {
+                    if (btn.innerText === correctAnswer) {
+                        btn.classList.add('correct');
+                    }
+                });
+            } else {
+                feedback.innerHTML = "Không chính xác";
+                feedback.style.color = "#DC3545"; /* Màu đỏ cho câu trả lời sai */
+                buttons.forEach(btn => {
+                    if (btn.innerText === selectedAnswer) {
+                        btn.classList.add('incorrect');
+                    }
+                });
+            }
+
+            buttons.forEach(button => button.disabled = true);
+            document.getElementById('checkButton').disabled = true;
+            document.getElementById('continueButton').style.display = "block";
+        }
+
+        function shuffleAnswers() {
+            const container = document.getElementById('answerContainer');
+            const buttons = Array.from(container.children);
+            const shuffled = buttons.sort(() => Math.random() - 0.5);
+            container.innerHTML = "";
+            shuffled.forEach(button => container.appendChild(button));
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            shuffleAnswers();
+        });
+
+        function continueGame() {
+            location.reload();
+        }
+    </script>
+</body>
+</html>
