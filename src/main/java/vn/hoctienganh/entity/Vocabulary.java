@@ -2,6 +2,8 @@ package vn.hoctienganh.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.time.LocalDateTime;
+
 
 @Data
 @AllArgsConstructor
@@ -22,9 +24,10 @@ public class Vocabulary {
     private String example;
     private String audio;
     private String image;
-    
+
     @ManyToOne
     @JoinColumn(name = "curriculum_id")
     private Curriculum curriculum;
     
+    private String match;  // Trường mới dùng để lưu kết quả thay thế
 }

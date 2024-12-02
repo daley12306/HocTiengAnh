@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Vocabulary List</title>
+</head>
+<body>
+    <h1>Danh sách</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Word</th>
+                <th>Example</th>
+                <th>Match</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="vocabulary : ${vocabulary}">
+                <td th:text="${vocabulary.id}"></td>
+                <td th:text="${vocabulary.word}"></td>
+                <td th:text="${vocabulary.example}"></td>
+                <td th:text="${vocabulary.match}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

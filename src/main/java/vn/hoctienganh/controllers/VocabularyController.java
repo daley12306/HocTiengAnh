@@ -71,8 +71,25 @@ public class VocabularyController {
         return "listening_view";  // Trả về cùng một view để hiển thị kết quả
     }
 
+     @GetMapping("/vocabulary")
+    public String getVocabulary(Model model) {
+        var vocabularyList = vocabularyService.getAllVocabulary();
+        vocabularyService.updateVocabularyMatches(vocabularyList);
+        model.addAttribute("vocabulary", vocabularyList);
+        return "vocabulary";
+    }
 
+    @GetMapping("/random-example")
+    public String getRandomExample(Model model) {
+        String[] randomWords = vocabularyService.getRandomExamples();
+        String[] randomExampleData = vocabularyService.getRandomExampleWithMatch();
 
+        model.addAttribute("word", randomExampleData[0]);
+        model.addAttribute("match", randomExampleData[1]);
+        model.addAttribute("example", randomExampleData[2]);
+        model.addAttribute("randomWords", randomWords);
 
+        return "randomExample"; // Trả về view "randomExample.html"
+    }
 
 }
