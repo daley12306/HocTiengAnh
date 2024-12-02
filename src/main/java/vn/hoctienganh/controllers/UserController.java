@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import vn.hoctienganh.entity.User;
+import vn.hoctienganh.models.UserModel;
 import vn.hoctienganh.services.UserService;
 
 @Controller
@@ -67,6 +68,7 @@ public class UserController {
 	    model.addAttribute("user", user);
 	    return "admin/add_student";  
 	}
+  
 	@PostMapping("/users/add")
 	public String saveStudent(@ModelAttribute("user") User user,Model model) {
 		 if (userService.existsByEmail(user.getEmail())) {
@@ -90,14 +92,11 @@ public class UserController {
 	    return "redirect:/admin/profile";
 	}
 	
-	
-
     // Lấy thông tin học viên theo ID
     @GetMapping("/students/{id}")
     public User getStudentById(@PathVariable Long id) {
         return userService.getStudentById(id);
     }
-
 
     // Cập nhật học viên
     @GetMapping("/users/edit/{id}")

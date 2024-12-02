@@ -2,7 +2,6 @@ package vn.hoctienganh.services;
 
 import java.util.List;
 
-
 import vn.hoctienganh.entity.User;
 
 public interface UserService {
@@ -23,7 +22,6 @@ public interface UserService {
     
     void saveUser(User user);
    
-    
     void updateUser(User user);
     
     String createAvatar(String fullName);

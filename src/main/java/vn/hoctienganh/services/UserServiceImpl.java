@@ -26,7 +26,6 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public User addStudent(User student) {
-		
 	    String avatar = createAvatar(student.getFullName());  // Tạo avatar từ fullName
         student.setAvatar(avatar);
 	    return studentRepository.save(student);
@@ -34,7 +33,6 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public User updateStudent(Long id, User studentDetails) {
-
 		User existingStudent = getStudentById(id);
 	        existingStudent.setFullName(studentDetails.getFullName());
 	        existingStudent.setUsername(studentDetails.getUsername());
@@ -46,7 +44,6 @@ public class UserServiceImpl implements UserService{
 	        if (studentDetails.getIsAdmin() != existingStudent.getIsAdmin()) {
 	            existingStudent.setIsAdmin(studentDetails.getIsAdmin());
 	        }
-	        
 	        return studentRepository.save(existingStudent);
 	}
 
@@ -61,8 +58,6 @@ public class UserServiceImpl implements UserService{
 	public void saveUser(User user) {
 		studentRepository.save(user);
 	}
-
-	
 
 	@Override
 	public void updateUser(User user) {

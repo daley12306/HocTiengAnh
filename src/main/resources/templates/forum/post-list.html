@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Forum Post List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Thêm Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin-top: 20px;
+            background-color: #ffffff; /* Màu nền trắng */
+            color: #6c757d;
+        }
+		/* Đảm bảo modal luôn căn giữa màn hình */
+		.modal-dialog {
+		    display: flex;
+		    align-items: center;  /* Căn giữa theo chiều dọc */
+		    justify-content: center; /* Căn giữa theo chiều ngang */
+		    height: 100%;  /* Đảm bảo chiều cao đầy đủ */
+		    margin: 0 auto;  /* Căn giữa ngang */
+		}
+        .btn-create {
+            background-color: #ffb6c1; /* Màu hồng cho nút */
+            border: none;
+            font-size: 16px;
+        }
+			/* Màu mặc định cho dấu ba chấm */
+		.fas.fa-ellipsis-h {
+		    color: #333;  /* Màu mặc định khi không hover */
+		}
+		
+		/* Màu khi hover vào dấu ba chấm */
+		.fas.fa-ellipsis-h:hover {
+		    color: #ff8ba7;  /* Màu khi hover (ví dụ là màu hồng nhạt) */
+		}
+	
+        .btn-create:hover {
+            background-color: #ff91a4;
+        }
+
+        .card {
+            background-color: #ffffff; /* Nền trắng cho card */
+            border: 1px solid #ddd; /* Border nhẹ màu xám */
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: relative; /* Thêm để đảm bảo dropdown có thể được căn vào góc */
+        }
+
+        .card-title a {
+            color: #000000 !important; /* Màu đen cho tiêu đề bài viết */
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .card-title a:hover {
+            color: #ff8ba7; /* Màu hồng khi hover */
+        }
+
+        .top-topics-card {
+            background-color: #f7f7f7; /* Màu xám nhạt cho sidebar */
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
+        .top-topics-card:hover {
+            background-color: #e1e1e1; /* Màu xám đậm hơn khi hover */
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: #ff8ba7;
+            border-color: #ff8ba7;
+        }
+
+        .pagination .page-link {
+            color: #ff8ba7;
+        }
+
+        .pagination .page-link:hover {
+            color: #ff91a4;
+        }
+
+        .likes-comments {
+            font-size: 12px;
+            color: #708090;
+        }
+
+        .likes-comments i {
+            margin-right: 5px;
+        }
+
+        /* Đảm bảo phần tử dấu ba chấm ở bên phải */
+        .dropdown {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+    </style>
+</head>
+<body>
+<header th:replace="~{fragments/header}"></header>
+
+<div class="container">
+
+    <div class="row">
+    <!-- Thông báo lỗi nếu có -->
+        <div th:if="${param.error}">
+            <div class="alert alert-danger">
+                <strong>Error!</strong> 
+                <span th:switch="${param.error}">
+                    <span th:case="'unauthorized'">You are not authorized to delete this post.</span>
+                    <!-- Có thể thêm nhiều trường hợp lỗi khác ở đây -->
+                </span>
+            </div>
+        </div>
+
+        <!-- Thông báo thành công nếu có -->
+        <div th:if="${param.success}">
+            <div class="alert alert-success">
+                <strong>Success!</strong> <span th:text="${param.success}">Post deleted successfully.</span>
+            </div>
+        </div>
+        <!-- Sidebar -->
+        <div class="col-lg-3">
+        
+           <!-- Nút tạo bài đăng -->
+			<a class="btn btn-create btn-lg btn-block mb-4" data-bs-toggle="modal" data-bs-target="#createPostModal">Create New Post</a>
+			
+			<!-- Modal để tạo bài viết mới -->
+			<div class="modal fade" id="createPostModal" tabindex="-1" aria-labelledby="createPostModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="createPostModalLabel">Create New Post</h5>
+			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			      </div>
+			      <div class="modal-body">
+			        <!-- Form tạo bài đăng -->
+					<form id="createPostForm" th:action="@{/posts/create}" method="post" enctype="multipart/form-data">
+					  <div class="mb-3">
+					    <label for="postTitle" class="form-label">Title</label>
+					    <input type="text" class="form-control" id="postTitle" name="title" required>
+					  </div>
+					  <div class="mb-3">
+					    <label for="postContent" class="form-label">Content</label>
+					    <textarea class="form-control" id="postContent" name="content" rows="4" required></textarea>
+					  </div>
+					  <!-- Thêm trường đính kèm file -->
+					  <div class="mb-3">
+					    <label for="fileUpload" class="form-label">Attach File</label>
+					    <input type="file" class="form-control" id="fileUpload" name="file" accept=".jpg,.jpeg,.png" onchange="previewImage(event)">
+					    <div class="mt-3" id="imagePreviewContainer" style="display: none;">
+					        <p>Image Preview:</p>
+					        <img id="imagePreview" src="#" alt="Image Preview" class="img-thumbnail" style="max-width: 200px; max-height: 200px;">
+					    </div>
+					  </div>
+					  
+					  <button type="submit" class="btn btn-primary" style="background-color: #ff8ba7; border: none;">Create Post</button>
+					</form>
+
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			
+            <div class="inner-sidebar">
+                <h5 class="mb-3" style="color: #000000;">Top Topics</h5>
+                <div th:each="topPost : ${topLikedPosts}">
+                    <div class="top-topics-card">
+                        <h6>
+                            <a th:href="@{/posts/{id}(id=${topPost.id})}" th:text="${topPost.title}" class="text-primary">Post Title</a>
+                        </h6>
+                        <p class="text-muted mb-0" style="font-size: 12px;">
+                            <span>Posted:</span>
+                            <span th:text="${#dates.format(topPost.postDate, 'dd-MM-yyyy')}">Date</span>
+                        </p>
+                        <p class="likes-comments mb-0">
+                            <i class="far fa-thumbs-up"></i> <span th:text="${topPost.likes}">0</span> Likes |
+                            <i class="far fa-comment"></i> <span th:text="${topPost.comments.size()}">0</span> Comments
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+		
+        <!-- Main Content -->
+        <div class="col-lg-9">
+            <h3 class="mb-3" style="color: #000;">CapyLingo Forum</h3>
+            <!-- Search Form -->
+            <form class="mb-4" th:action="@{/posts}" method="get">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="keyword" placeholder="Search posts..." 
+                           th:value="${keyword}" aria-label="Search posts">
+                    <button class="btn btn-primary" type="submit" style="background-color: #ff8ba7; border: none;">Search</button>
+                </div>
+            </form>
+            <!-- Bài viết -->
+			<div th:each="post : ${posts}">
+			    <div class="card mb-3">
+			        <div class="card-body">
+			            <div class="d-flex align-items-start">
+			                <img th:src="'https://randomuser.me/api/portraits/men/' + ${post.user.id % 99 + 1} + '.jpg'" class="rounded-circle me-3" width="50" alt="User">
+
+			                <div class="flex-grow-1">
+			                    <h5 class="card-title">
+			                        <a th:href="@{/posts/{id}(id=${post.id})}" th:text="${post.title}" class="text-primary">Post Title</a>
+			                    </h5>
+			                    <p class="mb-1 text-muted" th:text="${post.content}">Post Content</p>
+			                    <small class="text-muted">
+			                        by <a th:text="${post.user.fullName}" class="text-secondary">User</a> 
+			                        <span th:text="${post.postDate}"></span>
+			                    </small>
+			                    <p class="likes-comments mt-2">
+			                        <i class="far fa-thumbs-up"></i> <span th:text="${post.likes}">0</span> Likes |
+			                        <i class="far fa-comment"></i> <span th:text="${post.comments.size()}">0</span> Comments
+			                    </p>
+			                    <!-- Dropdown với dấu ba chấm -->
+			                    <div class="dropdown ms-3">
+			                        <button class="btn btn-sm btn-link" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"  th:disabled="${session.user.id != post.user.id && !session.user.isAdmin}">
+			                            <i class="fas fa-ellipsis-h"></i> <!-- Dấu 3 chấm -->
+			                        </button>
+			                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+			                            <!-- Xóa bài viết -->
+			                            <li>
+			                                <!-- Trigger modal delete confirmation -->
+			                                <button class="dropdown-item text-danger"  data-bs-toggle="modal" data-bs-target="#deleteModal" th:data-post-id="${post.id}"  >
+			                                    Delete
+			                                </button>
+			                            </li>
+			                        </ul>
+			                    </div>
+			                </div>
+			            </div>
+			        </div>
+			    </div>
+			
+			    <!-- Modal xác nhận xóa -->
+			    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+			        <div class="modal-dialog modal-dialog-centered">
+			            <div class="modal-content">
+			                <div class="modal-header">
+			                    <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+			                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			                </div>
+			                <div class="modal-body">
+			                    Are you sure you want to delete this post?
+			                </div>
+			                <div class="modal-footer">
+			                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+			                    <!-- Form xóa bài viết -->
+			                    <form id="deletePostForm" method="post" style="display:inline;">
+			                        <button type="submit" class="btn btn-danger">Yes</button>
+			                    </form>
+			                </div>
+			            </div>
+			        </div>
+			    </div>
+			</div>
+
+            <!-- Pagination -->
+            <nav aria-label="Page navigation" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                        <a class="page-link" th:href="@{/posts(keyword=${keyword}, page=${currentPage - 1})}" tabindex="-1">Previous</a>
+                    </li>
+                    <li th:each="page : ${#numbers.sequence(0, totalPages - 1)}" 
+                        th:classappend="${page == currentPage} ? 'active'" class="page-item">
+                        <a class="page-link" th:href="@{/posts(keyword=${keyword}, page=${page})}" th:text="${page + 1}">1</a>
+                    </li>
+                    <li class="page-item" th:classappend="${currentPage + 1 == totalPages} ? 'disabled'">
+                        <a class="page-link" th:href="@{/posts(keyword=${keyword}, page=${currentPage + 1})}">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script>
+    // Khi người dùng nhấn vào nút "Delete"
+    document.querySelectorAll('.dropdown-item.text-danger').forEach(button => {
+        button.addEventListener('click', function(event) {
+            // Lấy ID của bài viết
+            var postId = this.getAttribute('data-post-id');
+            console.log(postId);  // Kiểm tra xem postId có được lấy đúng không
+            // Cập nhật form action với ID bài viết
+            var form = document.getElementById('deletePostForm');
+            form.action = '/posts/' + postId + '/delete'; // Đảm bảo URL chính xác
+        });
+    });
+    function previewImage(event) {
+        const fileInput = event.target;
+        const previewContainer = document.getElementById('imagePreviewContainer');
+        const previewImage = document.getElementById('imagePreview');
+        
+        // Kiểm tra nếu có file được chọn
+        if (fileInput.files && fileInput.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                // Cập nhật src của ảnh xem trước
+                previewImage.src = e.target.result;
+                previewContainer.style.display = 'block'; // Hiển thị khu vực xem trước
+            };
+
+            reader.readAsDataURL(fileInput.files[0]); // Đọc file đã chọn
+        } else {
+            previewContainer.style.display = 'none'; // Ẩn nếu không có file được chọn
+        }
+    }
+ // Hàm kiểm tra form và ngừng gửi nếu thiếu thông tin
+    document.getElementById('createPostForm').addEventListener('submit', function(event) {
+      var title = document.getElementById('postTitle').value;
+      var content = document.getElementById('postContent').value;
+
+      // Kiểm tra nếu tiêu đề hoặc nội dung rỗng
+      if (!title || !content) {
+        event.preventDefault();  // Ngừng gửi form
+        alert('Please fill in all required fields!');
+      }
+    });
+
+</script>
+
+
+<footer th:replace="~{fragments/footer}"></footer>
+</body>
+</html>
