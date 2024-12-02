@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Match Vocabulary</title>
+    <link rel="stylesheet" href="/statics/styles.css">
+    <style>
+        /* Thanh taskbar ở trên */
+        /* Chỉnh sửa font và bố cục của body */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #FDCEDF;  /* Màu nền hồng nhạt */
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    justify-content: center; /* Căn giữa khung */
+}
+
+/* Header */
+header {
+    width: 100%;
+    background-color: #EB9AB8; /* Màu hồng đậm */
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2rem;
+    text-transform: uppercase;
+}
+
+header img {
+    max-width: 100px;
+    margin-bottom: 10px;
+}
+
+/* Thanh taskbar */
+.taskbar {
+    width: 100%;
+    background-color: #FFD78F; /* Màu vàng sáng */
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: space-between; /* Các nút được căn đều */
+    align-items: center;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+.taskbar .title {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.taskbar .buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.taskbar button {
+    padding: 8px 16px;
+    font-size: 1rem;
+    background-color: #F8E8EE; /* Màu hồng nhạt */
+    color: #F499A3; /* Màu hồng nhẹ */
+    border: 2px solid #F499A3;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.taskbar button:hover {
+    background-color: #F499A3;  /* Màu hồng sáng khi hover */
+    color: white;
+    transform: scale(1.05);
+}
+
+/* Khung chứa các ô ghép nối */
+.container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-top: 50px;
+    width: 100%;
+    max-width: 1200px;
+    padding: 20px;
+    background-color: #EB9AB8; /* Màu hồng đậm */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.column {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.box, .target {
+    padding: 0;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: transform 0.3s, background-color 0.3s;
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+/* Các box có màu sắc và hiệu ứng */
+.box {
+    background-color: #F8E8EE; /* Màu hồng nhạt */
+    border: 2px solid #FFD78F; /* Màu vàng */
+    color: #F499A3;  /* Màu hồng nhẹ */
+    font-weight: bold;
+    cursor: grab;
+    border-radius: 10px;
+}
+
+.box:active {
+    transform: scale(0.98);
+}
+
+.target {
+    background-color: #FDCEDF; /* Màu hồng nhạt */
+    border: 2px dashed #F499A3; /* Màu hồng nhẹ */
+    min-height: 60px;
+    color: #F499A3;  /* Màu hồng nhẹ */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.target.dropped {
+    background-color: #F8E8EE; /* Màu hồng nhạt khi thả vào */
+}
+
+.target.correct {
+    background-color: #D4EDDA; /* Màu xanh lá cho kết quả đúng */
+    border-color: #28A745; /* Màu xanh lá */
+}
+
+.target.wrong {
+    background-color: #F8D7DA; /* Màu đỏ nhạt cho kết quả sai */
+    border-color: #DC3545; /* Màu đỏ */
+}
+
+/* Nút kiểm tra */
+#buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    gap: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    background-color: #FFD78F; /* Màu vàng sáng */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #F8E8EE;  /* Màu hồng nhạt khi hover */
+    color: #F499A3; /* Màu hồng nhạt */
+    transform: scale(1.05);
+}
+
+/* Hiển thị kết quả */
+#result {
+    margin-top: 20px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    color: #333;
+}
+
+/* Footer */
+footer {
+    margin-top: auto;
+    width: 100%;
+    background-color: #EB9AB8; /* Màu hồng đậm */
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+footer a:hover {
+    color: #cce7ff; /* Màu sáng khi hover */
+}
+        
+        /* Nút vuông */
+.square-button {
+    width: 100px;  /* Chiều rộng của nút vuông */
+    height: 100px;  /* Chiều cao của nút vuông */
+    background-color: #F8E8EE;  /* Màu nền của nút */
+    border: 2px solid #F499A3;  /* Đường viền màu */
+    border-radius: 8px;  /* Làm tròn các góc của nút */
+    display: flex;
+    justify-content: center;  /* Canh giữa ảnh theo chiều ngang */
+    align-items: center;  /* Canh giữa ảnh theo chiều dọc */
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s; /* Hiệu ứng khi hover */
+}
+
+/* Điều chỉnh ảnh trong nút */
+.button-image {
+    width: 100%;  /* Ảnh chiếm 60% chiều rộng của nút */
+    height: auto;  /* Giữ tỷ lệ gốc của ảnh */
+    transition: transform 0.2s;  /* Thêm hiệu ứng cho ảnh khi hover */
+}
+
+/* Hiệu ứng hover cho nút */
+.square-button:hover {
+    background-color: #F499A3;  /* Đổi màu khi hover */
+}
+
+.square-button:hover .button-image {
+    transform: scale(1.1);  /* Phóng to ảnh khi hover */
+}
+        
+
+        /* Các style khác cho .box, .target, etc. */
+    </style>
+</head>
+<body>
+
+    <div class="taskbar">
+    <button class="square-button">
+    <img src="/img/logo.png" alt="Logo" class="button-image">
+</button>
+    
+        <span class="title"></span>
+        <div class="buttons">
+            <button id="help-btn">Help</button>
+        </div>
+    </div>
+
+    <header>
+        <h1>Match Vocabulary</h1>
+    </header>
+
+    <div class="container" id="words-container">
+        <!-- Render 12 từ và định nghĩa với Thymeleaf, sắp xếp ngẫu nhiên -->
+        <div th:each="vocabulary : ${vocabularies.subList(0, 12)}" class="box" draggable="true" th:data-id="${vocabulary.id}">
+            <span th:text="${vocabulary.word}"></span>
+        </div>
+    </div>
+
+    <div class="container" id="definitions-container">
+        <!-- Render định nghĩa tương ứng với từ -->
+        <div th:each="vocabulary : ${vocabularies.subList(0, 12)}" class="target" th:data-id="${vocabulary.id}">
+            <span th:text="${vocabulary.definition}"></span>
+        </div>
+    </div>
+
+    <div id="buttons">
+        <button id="submit-btn">Submit</button>
+        <button id="restart-btn">Restart</button>
+        <a href="/" id="home-btn">
+            <button>Go Home</button>
+        </a>
+    </div>
+
+    <div id="result"></div>
+
+    <footer>
+        <p>Footer content here</p>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const wordsContainer = document.getElementById('words-container');
+        const definitionsContainer = document.getElementById('definitions-container');
+        const submitBtn = document.getElementById('submit-btn');
+        const restartBtn = document.getElementById('restart-btn');
+        const resultDiv = document.getElementById('result');
+        const resetBtn = document.getElementById('reset-btn');
+        const helpBtn = document.getElementById('help-btn');
+
+        let correctCount = 0;
+        let totalCount = 12; // Tổng số lượng từ vựng
+
+        // Danh sách từ vựng có sẵn (ví dụ từ vựng tiếng Anh - tiếng Việt)
+        const vocabularies = [
+            { id: 1, word: 'apple', definition: 'quả táo' },
+            { id: 2, word: 'banana', definition: 'quả chuối' },
+            { id: 3, word: 'cat', definition: 'con mèo' },
+            { id: 4, word: 'dog', definition: 'con chó' },
+            { id: 5, word: 'sun', definition: 'mặt trời' },
+            { id: 6, word: 'moon', definition: 'mặt trăng' },
+            { id: 7, word: 'book', definition: 'quyển sách' },
+            { id: 8, word: 'pen', definition: 'cây bút' },
+            { id: 9, word: 'table', definition: 'cái bàn' },
+            { id: 10, word: 'chair', definition: 'cái ghế' },
+            { id: 11, word: 'car', definition: 'xe ô tô' },
+            { id: 12, word: 'bus', definition: 'xe buýt' },
+            { id: 13, word: 'computer', definition: 'máy tính' },
+            { id: 14, word: 'phone', definition: 'điện thoại' },
+            { id: 15, word: 'tree', definition: 'cây' },
+            { id: 16, word: 'flower', definition: 'hoa' },
+            { id: 17, word: 'river', definition: 'con sông' },
+            { id: 18, word: 'mountain', definition: 'ngọn núi' },
+            { id: 19, word: 'sky', definition: 'bầu trời' },
+            { id: 20, word: 'cloud', definition: 'đám mây' },
+            { id: 21, word: 'ocean', definition: 'đại dương' },
+            { id: 22, word: 'forest', definition: 'rừng' },
+            { id: 23, word: 'bird', definition: 'con chim' },
+            { id: 24, word: 'fish', definition: 'con cá' },
+            { id: 25, word: 'tiger', definition: 'con hổ' },
+            { id: 26, word: 'elephant', definition: 'con voi' },
+            { id: 27, word: 'lion', definition: 'sư tử' },
+            { id: 28, word: 'giraffe', definition: 'hươu cao cổ' },
+            { id: 29, word: 'whale', definition: 'cá voi' },
+            { id: 30, word: 'dolphin', definition: 'cá heo' },
+            { id: 31, word: 'strawberry', definition: 'dâu tây' },
+            { id: 32, word: 'cherry', definition: 'quả anh đào' },
+            { id: 33, word: 'grape', definition: 'quả nho' },
+            { id: 34, word: 'pineapple', definition: 'quả dứa' },
+            { id: 35, word: 'carrot', definition: 'cà rốt' },
+            { id: 36, word: 'potato', definition: 'khoai tây' },
+            { id: 37, word: 'onion', definition: 'hành tây' },
+            { id: 38, word: 'garlic', definition: 'tỏi' },
+            { id: 39, word: 'cucumber', definition: 'dưa chuột' },
+            { id: 40, word: 'tomato', definition: 'cà chua' },
+            { id: 41, word: 'pepper', definition: 'ớt' },
+            { id: 42, word: 'spinach', definition: 'rau chân vịt' },
+            { id: 43, word: 'lettuce', definition: 'xà lách' },
+            { id: 44, word: 'pumpkin', definition: 'bí ngô' },
+            { id: 45, word: 'sugar', definition: 'đường' },
+            { id: 46, word: 'salt', definition: 'muối' },
+            { id: 47, word: 'flour', definition: 'bột mì' },
+            { id: 48, word: 'bread', definition: 'bánh mì' },
+            { id: 49, word: 'butter', definition: 'bơ' },
+            { id: 50, word: 'immediate', definition: 'ngay lập tức' },
+            { id: 51, word: 'urgent', definition: 'khẩn cấp' },
+            { id: 52, word: 'emergency', definition: 'tình huống khẩn cấp' },
+            { id: 53, word: 'critical', definition: 'nghiêm trọng' },
+            { id: 54, word: 'instant', definition: 'ngay lập tức' },
+            { id: 55, word: 'prompt', definition: 'nhanh chóng' },
+            { id: 56, word: 'immediacy', definition: 'tính cấp bách' },
+            { id: 57, word: 'swift', definition: 'nhanh chóng' },
+            { id: 58, word: 'rapid', definition: 'nhanh, cấp tốc' },
+            { id: 59, word: 'now', definition: 'bây giờ' },
+            { id: 60, word: 'fast', definition: 'nhanh' },
+            { id: 61, word: 'instantaneous', definition: 'ngay lập tức' },
+            { id: 62, word: 'quick', definition: 'nhanh' },
+            { id: 63, word: 'ASAP (As Soon As Possible)', definition: 'càng sớm càng tốt' },
+            { id: 64, word: 'on the spot', definition: 'ngay tại chỗ' },
+            { id: 65, word: 'at once', definition: 'ngay lập tức' },
+            { id: 66, word: 'straightaway', definition: 'ngay lập tức' },
+            { id: 67, word: 'pressing', definition: 'cấp bách' },
+            { id: 68, word: 'crucial', definition: 'quan trọng, quyết định' },
+            { id: 69, word: 'nowadays', definition: 'ngày nay' },
+            { id: 70, word: 'emergency response', definition: 'phản ứng khẩn cấp' },
+            { id: 71, word: 'in an instant', definition: 'trong chớp mắt' },
+            { id: 72, word: 'speedy', definition: 'nhanh chóng' },
+            { id: 73, word: 'pressing matter', definition: 'vấn đề khẩn cấp' },
+            { id: 74, word: 'on time', definition: 'đúng giờ' },
+            { id: 75, word: 'quick-fire', definition: 'nhanh chóng, không chậm trễ' },
+            { id: 76, word: 'time-sensitive', definition: 'nhạy cảm về thời gian' },
+            { id: 77, word: 'take immediate action', definition: 'hành động ngay lập tức' },
+            { id: 78, word: 'right away', definition: 'ngay lập tức' },
+            { id: 79, word: 'immediately', definition: 'ngay lập tức' },
+            { id: 80, word: 'at the moment', definition: 'vào lúc này' },
+            { id: 81, word: 'urgency', definition: 'sự khẩn cấp' },
+            { id: 82, word: 'on-demand', definition: 'theo yêu cầu' },
+            { id: 83, word: 'hasty', definition: 'vội vã' },
+            { id: 84, word: 'in a heartbeat', definition: 'trong nháy mắt' },
+            { id: 85, word: 'immediate effect', definition: 'tác dụng ngay lập tức' },
+            { id: 86, word: 'critical moment', definition: 'thời điểm quan trọng' },
+            { id: 87, word: 'imminent', definition: 'sắp xảy ra' },
+            { id: 88, word: 'rapid-fire', definition: 'liên tục và nhanh chóng' },
+            { id: 89, word: 'snap', definition: 'đột ngột, ngay lập tức' },
+            { id: 90, word: 'jump-start', definition: 'khởi động nhanh' },
+          ];
+
+		// const vocabularies = /*[[${vocabularies}]]*/ [];
+        // Hàm xáo trộn mảng
+        function shuffle(array) {
+            let currentIndex = array.length, randomIndex, temporaryValue;
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex -= 1;
+                temporaryValue = array[currentIndex];
+                array[currentIndex] = array[randomIndex];
+                array[randomIndex] = temporaryValue;
+            }
+            return array;
+        }
+
+        // Hàm tải lại danh sách từ vựng
+        function loadVocabularies() {
+            // Chọn ngẫu nhiên 12 từ
+            const selectedVocabularies = shuffle(vocabularies).slice(0, 12); // Xáo trộn và lấy 12 từ
+
+            // Làm sạch các phần tử cũ
+            wordsContainer.innerHTML = '';
+            definitionsContainer.innerHTML = '';
+
+            // Chèn các phần tử đã xáo trộn vào HTML
+            selectedVocabularies.forEach(vocabulary => {
+                const wordElement = document.createElement('div');
+                wordElement.classList.add('box');
+                wordElement.dataset.id = vocabulary.id;
+                wordElement.textContent = vocabulary.word;
+                wordElement.setAttribute('draggable', 'true');
+                wordsContainer.appendChild(wordElement);
+
+                const targetElement = document.createElement('div');
+                targetElement.classList.add('target');
+                targetElement.dataset.id = vocabulary.id;
+                targetElement.textContent = vocabulary.definition;
+                definitionsContainer.appendChild(targetElement);
+            });
+
+            // Lấy các phần tử kéo thả
+            const boxes = document.querySelectorAll('.box');
+            const targets = document.querySelectorAll('.target');
+
+            // Thêm chức năng kéo thả
+            boxes.forEach(box => {
+                box.addEventListener('dragstart', () => {
+                    box.classList.add('dragging');
+                });
+
+                box.addEventListener('dragend', () => {
+                    box.classList.remove('dragging');
+                });
+            });
+
+            targets.forEach(target => {
+                target.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                });
+
+                target.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    const draggingBox = document.querySelector('.dragging');
+                    if (draggingBox && !target.classList.contains('dropped')) {
+                        target.textContent = draggingBox.textContent;
+                        target.classList.add('dropped');
+                        target.dataset.paired = draggingBox.dataset.id;
+                        draggingBox.remove();
+                    }
+                });
+            });
+        }
+
+        // Gọi loadVocabularies khi trang được tải lần đầu
+        loadVocabularies();
+
+        // Help functionality
+        helpBtn.addEventListener('click', () => {
+            alert("Here are some tips: \n1. Drag the English words into the correct Vietnamese definitions.\n2. Submit your answer when you're ready.");
+        });
+
+        // Submit functionality
+        submitBtn.addEventListener('click', () => {
+            correctCount = 0;
+            const targets = document.querySelectorAll('.target');
+            targets.forEach(target => {
+                if (target.dataset.paired === target.dataset.id) {
+                    target.classList.add('correct');
+                    correctCount++;
+                } else {
+                    target.classList.add('wrong');
+                }
+            });
+
+            resultDiv.textContent = `You matched ${correctCount} out of ${totalCount} words correctly.`;
+        });
+
+        // Restart functionality
+        restartBtn.addEventListener('click', () => {
+            loadVocabularies(); // Gọi lại hàm để tải danh sách từ vựng mới ngẫu nhiên
+            resultDiv.textContent = ''; // Xóa kết quả trước đó
+        });
+    });
+
+    </script>
+
+
+</body>
+</html>

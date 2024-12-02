@@ -38,44 +38,8 @@ public interface VocabularyService {
     List<Map<String, Object>> getVocabulariesForMatching();
     Vocabulary getVocabularyByWord(String word);
     Vocabulary getRandomWord();
-  
-  public void updateVocabularyMatches(List<Vocabulary> vocabularyList) {
-        for (Vocabulary vocabulary : vocabularyList) {
-            String word = vocabulary.getWord();
-            String example = vocabulary.getExample();
-
-            if (example.contains(word)) {
-                String updatedExample = example.replace(word, "____");
-                vocabulary.setMatch(updatedExample);
-            } else {
-                vocabulary.setMatch(example);
-            }
-        }
-    }
-
-    // Lấy 2 từ vựng ngẫu nhiên
-    public String[] getRandomExamples() {
-        List<Vocabulary> vocabularyList = getAllVocabulary();
-        if (vocabularyList.size() < 2) {
-            return new String[] {"Not enough words", "Not enough words"};
-        }
-
-        Collections.shuffle(vocabularyList);
-        return new String[] {vocabularyList.get(0).getWord(), vocabularyList.get(1).getWord()};
-    }
-
-    // Lấy câu ví dụ ngẫu nhiên và từ vựng đã được match
-    public String[] getRandomExampleWithMatch() {
-        List<Vocabulary> vocabularyList = getAllVocabulary();
-        updateVocabularyMatches(vocabularyList);
-
-        if (vocabularyList.isEmpty()) {
-            return new String[] {"No vocabulary available", "", ""};
-        }
-
-        Random random = new Random();
-        Vocabulary randomVocabulary = vocabularyList.get(random.nextInt(vocabularyList.size()));
-
-        return new String[] {randomVocabulary.getWord(), randomVocabulary.getMatch(), randomVocabulary.getExample(),};
-    }
+ 
+    void updateVocabularyMatches(List<Vocabulary> vocabularyList);
+    String[] getRandomExamples();
+    String[] getRandomExampleWithMatch();
 }

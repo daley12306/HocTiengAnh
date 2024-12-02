@@ -73,7 +73,7 @@ public class VocabularyController {
 
      @GetMapping("/vocabulary")
     public String getVocabulary(Model model) {
-        var vocabularyList = vocabularyService.getAllVocabulary();
+        var vocabularyList = vocabularyService.getAllVocabularies();
         vocabularyService.updateVocabularyMatches(vocabularyList);
         model.addAttribute("vocabulary", vocabularyList);
         return "vocabulary";

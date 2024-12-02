@@ -32,6 +32,7 @@ public class ExamController {
 	
 	@GetMapping("/take")
 	public String take(Model model) {
+		scoreEachCurriculum = new ArrayList<>(List.of(0, 0, 0));
 		questions = questionService.getQuestions();
 		currentQuestionIndex = 0;
 		model.addAttribute("question", questions.get(currentQuestionIndex));

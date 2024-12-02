@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layout_admin.html}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body layout:fragment="content">
+	<div class="container mt-5">
+		<h2 class="text-center my-4">Danh sách ý kiến</h2>
+		<div class="table-responsive my-5">
+			<table class="table table-hover table-striped align-middle mb-0 bg-white" id="feedback_list">
+				<thead class="bg-light">
+					<tr>
+						<th>#</th>
+						<th>Người gửi</th>
+						<th>Chủ đề</th>
+						<th>Mô tả</th>
+						<th>Trạng thái</th>
+						<th>Ngày gửi</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="feedback, stat : ${feedbacks}" role="button" th:data-id="${feedback.id}">
+					    <td th:text="${stat.index + 1}"></td>
+						<td th:text="${feedback.getStudent().getFullName()}"></td>
+						<td th:text="${feedback.subject}"></td>
+						<td th:text="${feedback.description}"></td>
+						<td><span th:if="${feedback.isReply}"
+							class="badge bg-success">Đã phản hồi</span> <span
+							th:if="${!feedback.isReply}" class="badge bg-warning">Chưa phản hồi</span></td>
+						<td th:text="${#dates.format(feedback.created, 'dd/MM/yyyy HH:mm')}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<script>
+        document.querySelectorAll('#feedback_list tbody tr').forEach(row => {
+            row.addEventListener('click', function() {
+                const feedbackId = this.getAttribute('data-id');
+                window.location.href = `feedbacks/detail/${feedbackId}`;
+            });
+        });
+    </script>
+</body>
+</html>

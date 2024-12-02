@@ -216,14 +216,6 @@ public class PostController {
 
 
     
-
-    @ModelAttribute
-    public void addDefaultUserToSession(HttpSession session) {
-            User defaultUser = userService.findUserByUsername("user2");
-            session.setAttribute("user", defaultUser);
-        
-    }
-    
   
     
 }

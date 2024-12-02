@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import vn.hoctienganh.entity.Vocabulary;
 
 
-public interface VocabularyRepository extends JpaRepository<Vocabulary, Long>{
+public interface VocabularyRepository extends JpaRepository<Vocabulary, Integer>{
 	List<Vocabulary> findByCurriculumId(Integer curriculumId);
 	@Query(value = "SELECT v.* FROM HocTiengAnh.dbo.vocabulary v "
 			+ "JOIN HocTiengAnh.dbo.curriculum c ON v.curriculum_id = c.id "

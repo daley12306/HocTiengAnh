@@ -25,7 +25,7 @@ public class AuthServiceImpl implements IAuthService {
 	private IRedisService redisService;
 
 	@Autowired
-	private IEmailService emailService;
+	private EmailService emailService;
 
 	@Override
 	public Response login(LoginRequest request) {
