@@ -12,4 +12,12 @@ public class HomeController {
 	public String index() {
 		return "user/home";
 	}
+	@GetMapping("/chart")
+	public String chart() {
+		return "chart";
+	}
+	@GetMapping("/dictionary")
+	public String dictionary() {
+		return "dictionary";
+	}
 }

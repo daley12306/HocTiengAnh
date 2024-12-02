@@ -28,4 +28,6 @@ public interface VocabularyService {
 	
 	List<Vocabulary> findWordsByCurriculumName(String name);
 
+	List<Vocabulary> findByCurriculumId(Integer curriculumId);
+
 }

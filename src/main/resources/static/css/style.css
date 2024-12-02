@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* General Styles */
 .learning-program-container {
     width: 100%;
@@ -180,4 +181,16 @@ body {
 
 .confetti:nth-child(13n) {
   background-color: #1abc9c; /* Màu xanh ngọc */
+}
+.avatar {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    font-size: 24px;
+    font-weight: bold;
+    background-color: #f2f2f2;
+    color: #333;
 }

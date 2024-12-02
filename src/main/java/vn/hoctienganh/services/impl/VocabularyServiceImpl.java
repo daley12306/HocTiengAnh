@@ -59,6 +59,11 @@ public class VocabularyServiceImpl implements VocabularyService {
 		return vocabularyRepository.findWordsByCurriculumName(name);
 	}
 
+	@Override
+	public List<Vocabulary> findByCurriculumId(Integer curriculumId) {
+		return vocabularyRepository.findByCurriculumId(curriculumId);
+	}
+
 	
 
 }

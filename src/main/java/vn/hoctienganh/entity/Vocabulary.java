@@ -1,7 +1,5 @@
 package vn.hoctienganh.entity;
 
-import java.util.List;
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,4 +28,3 @@ public class Vocabulary {
     private Curriculum curriculum;
     
 }
-

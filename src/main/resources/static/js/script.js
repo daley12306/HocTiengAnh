@@ -1,5 +1,13 @@
-document.addEventListener('DOMContentLoaded', function () {
-  // Tạo ra 100 confetti
+
+document.addEventListener("DOMContentLoaded", function() {
+    var avatars = document.querySelectorAll('.avatar');
+    avatars.forEach(function(avatar) {
+        // Tạo màu nền ngẫu nhiên
+        var randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+        avatar.style.backgroundColor = randomColor;
+    });
+
+    // Tạo ra 100 confetti
   for (let i = 0; i < 100; i++) {
     let confetti = document.createElement('div');
     confetti.classList.add('confetti');

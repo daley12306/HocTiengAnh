@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout.html}">
+<head>
+<meta charset="UTF-8">
+<title>Exam</title>
+</head>
+
+<body layout:fragment="content" style="background-color: #f9e8ee">
+	<div class="container">
+		<div class="row justify-content-center align-items-center vh-100">
+			<div class="col-12 col-md-6">
+				<div class="card shadow">
+					<div class="card-body text-center">
+						<h2 class="card-title mb-4">Kết quả bài kiểm tra</h2>
+						<p class="card-text mb-4">🎊 Chúc mừng bạn đã hoàn thành bài kiểm tra 🎉</p>
+						<p class="card-text mb-4">Chương trình học chúng tôi đề xuất cho bạn là <span class="fw-bold" th:text="${curriculumName}"></span></p>
+
+						<div class="px-5 mb-4">
+							<!-- Sơ cấp -->
+							<div class="mt-4">
+								<label for="level1">Sơ cấp (A1) - Tỷ lệ đúng: <span
+									th:text="${percentCurriculum1}">0</span>%
+								</label>
+								<div class="progress mt-2">
+									<div
+										class="progress-bar"
+										th:style="'width: ' + ${percentCurriculum1} + '%' + '; background-color: #EB9AB8'"
+										role="progressbar" aria-valuenow="percentCurriculum1"
+										aria-valuemin="0" aria-valuemax="100">
+										<span th:text="${percentCurriculum1 + '%'}"></span>
+									</div>
+								</div>
+							</div>
+
+							<!-- Trung cấp -->
+							<div class="mt-4">
+								<label for="level2">Trung cấp (B1) - Tỷ lệ đúng: <span
+									th:text="${percentCurriculum2}">0</span>%
+								</label>
+								<div class="progress mt-2">
+									<div
+										class="progress-bar"
+										th:style="'width: ' + ${percentCurriculum2} + '%' + '; background-color: #EB9AB8'"
+										role="progressbar" aria-valuenow="percentCurriculum2"
+										aria-valuemin="0" aria-valuemax="100">
+										<span th:text="${percentCurriculum2 + '%'}"></span>
+									</div>
+								</div>
+							</div>
+
+							<!-- Cao cấp -->
+							<div class="mt-4">
+								<label for="level3">Cao cấp (C1) - Tỷ lệ đúng: <span
+									th:text="${percentCurriculum3}">0</span>%
+								</label>
+								<div class="progress mt-2">
+									<div
+										class="progress-bar"
+										th:style="'width: ' + ${percentCurriculum3} + '%' + '; background-color: #EB9AB8'"
+										role="progressbar" aria-valuenow="percentCurriculum3"
+										aria-valuemin="0" aria-valuemax="100">
+										<span th:text="${percentCurriculum3 + '%'}"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+						<form action="/exam/save" method="post">
+							<button type="submit" class="btn" style="background-color: #EB9AB8; color: white">Chọn chương trình này</button>
+							<a href="/" class="btn btn-secondary">Về trang chủ</a>
+						</form>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
