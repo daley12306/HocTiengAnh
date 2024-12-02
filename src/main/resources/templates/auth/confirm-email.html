@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Xác thực Email</title>
+    <style>
+        body {
+            font-family: "Nunito", sans-serif;
+            background-color: #ffe6f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .otp-container {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo img {
+            width: 150px;
+        }
+
+        h1 {
+            color: #3c3c3c;
+            font-size: 24px;
+            margin-bottom: 1rem;
+        }
+
+        .description {
+            color: #6f6f6f;
+            margin-bottom: 2rem;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .email-display {
+            color: #ff4b75;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+
+        .otp-input-container {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .otp-input {
+            width: 50px;
+            height: 50px;
+            border: 2px solid #e5e5e5;
+            border-radius: 12px;
+            font-size: 24px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .otp-input:focus {
+            border-color: #ff4b75;
+            outline: none;
+        }
+
+        .verify-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #ff4b75;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #d63d61;
+            transition: all 0.1s ease;
+            margin-bottom: 1rem;
+        }
+
+        .verify-btn:hover {
+            background-color: #ff6b8e;
+        }
+
+        .verify-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #d63d61;
+        }
+
+        .resend-link {
+            color: #ff4b75;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+            outline: none;
+    		border: none;
+    		background: none;
+        }
+
+        .resend-link:hover {
+            text-decoration: underline;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div th:replace="fragments/header :: header"></div>
+    <div class="content">
+        <div class="otp-container">
+            <div class="logo">
+                <img src="/img/logo.png" alt="Logo">
+            </div>
+            
+            <h1>Xác thực Email</h1>
+            
+            <p class="description">
+                Chúng tôi đã gửi mã xác thực đến email của bạn
+            </p>
+            
+            <div th:if="${error}" style="color:red;" class="error-message">
+                <p th:text="${error}"></p>
+            </div>
+            
+            <div class="email-display" th:text="${email}">example@email.com</div>
+            
+            <form th:action="@{/confirm-email}" method="post">
+                <div class="otp-input-container">
+                    <input type="text" class="otp-input" maxlength="1" required oninvalid="this.setCustomValidity('Thông tin này là bắt buộc')" oninput="this.setCustomValidity('')">
+                    <input type="text" class="otp-input" maxlength="1" required oninvalid="this.setCustomValidity('Thông tin này là bắt buộc')" oninput="this.setCustomValidity('')">
+                    <input type="text" class="otp-input" maxlength="1" required oninvalid="this.setCustomValidity('Thông tin này là bắt buộc')" oninput="this.setCustomValidity('')">
+                    <input type="text" class="otp-input" maxlength="1" required oninvalid="this.setCustomValidity('Thông tin này là bắt buộc')" oninput="this.setCustomValidity('')">
+                    <input type="text" class="otp-input" maxlength="1" required oninvalid="this.setCustomValidity('Thông tin này là bắt buộc')" oninput="this.setCustomValidity('')">
+                    <input type="text" class="otp-input" maxlength="1" required oninvalid="this.setCustomValidity('Thông tin này là bắt buộc')" oninput="this.setCustomValidity('')">
+                </div>
+                <input type="hidden" name="email" th:value="${email}">
+                <input type="hidden" id="fullOtp" name="otp">
+                
+                <button type="submit" class="verify-btn">XÁC THỰC</button>
+            </form>
+            <form th:action="@{/resend-otp}" method="post">
+                <input type="hidden" name="email" th:value="${email}">
+            	<button type = "submit" class="resend-link" >Gửi lại mã xác thực</button>
+            </form>
+            
+            <div class="success-message" th:if="${success}" th:text="${success}"></div>
+        </div>
+    </div>
+    <div th:replace="fragments/footer :: footer"></div>
+
+    <script>
+        // Xử lý input OTP
+        const inputs = document.querySelectorAll('.otp-input');
+        const form = document.querySelector('form');
+        const fullOtpInput = document.getElementById('fullOtp');
+
+        inputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                if (e.target.value.length === 1) {
+                    if (index < inputs.length - 1) {
+                        inputs[index + 1].focus();
+                    }
+                }
+            });
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                    inputs[index - 1].focus();
+                }
+            });
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const otp = Array.from(inputs).map(input => input.value).join('');
+            fullOtpInput.value = otp;
+            form.submit();
+        });
+    </script>
+</body>
+</html>
