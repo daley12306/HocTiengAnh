@@ -98,12 +98,11 @@ public class Vocabulary {
 			if (audio.contains("/9/")) {
 				String[] parts = audio.split("/9/");
 				String fileName = parts[1];
-				if (fileName.matches("\\d+_.*")) {
-					fileName = fileName.replaceFirst("\\d+_", "");
-				}
+				fileName = fileName.replaceAll("^\\d+_", "");
 				return "https://trumtuvung.com/audio/9/" + fileName;
 			}
 			if (!audio.startsWith("http")) {
+				audio = audio.replaceAll("^\\d+_", "");
 				return "https://trumtuvung.com/audio/9/" + audio;
 			}
 		}
@@ -115,11 +114,10 @@ public class Vocabulary {
 			if (audio.contains("/9/")) {
 				String[] parts = audio.split("/9/");
 				String fileName = parts[1];
-				if (fileName.matches("\\d+_.*")) {
-					fileName = fileName.replaceFirst("\\d+_", "");
-				}
+				fileName = fileName.replaceAll("^\\d+_", "");
 				this.audio = "https://trumtuvung.com/audio/9/" + fileName;
 			} else {
+				audio = audio.replaceAll("^\\d+_", "");
 				this.audio = "https://trumtuvung.com/audio/9/" + audio;
 			}
 		} else {
@@ -129,15 +127,14 @@ public class Vocabulary {
 
 	public String getImage() {
 		if (image != null) {
-			if (image.contains("/11/")) {
+			if (image.contains("/9/")) {
 				String[] parts = image.split("/9/");
 				String fileName = parts[1];
-				if (fileName.matches("\\d+_.*")) {
-					fileName = fileName.replaceFirst("\\d+_", "");
-				}
+				fileName = fileName.replaceAll("^\\d+_", "");
 				return "https://trumtuvung.com/images/9/" + fileName;
 			}
 			if (!image.startsWith("http")) {
+				 image = image.replaceAll("^\\d+_", "");
 				return "https://trumtuvung.com/images/9/" + image;
 			}
 		}
@@ -149,11 +146,10 @@ public class Vocabulary {
 			if (image.contains("/9/")) {
 				String[] parts = image.split("/9/");
 				String fileName = parts[1];
-				if (fileName.matches("\\d+_.*")) {
-					fileName = fileName.replaceFirst("\\d+_", "");
-				}
+				fileName = fileName.replaceAll("^\\d+_", "");
 				this.image = "https://trumtuvung.com/images/9/" + fileName;
 			} else {
+				image = image.replaceAll("^\\d+_", "");
 				this.image = "https://trumtuvung.com/images/9/" + image;
 			}
 		} else {

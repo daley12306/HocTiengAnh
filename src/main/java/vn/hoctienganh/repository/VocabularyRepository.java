@@ -17,6 +17,8 @@ public interface VocabularyRepository extends JpaRepository<Vocabulary, Integer>
     
     // Thêm phương thức kiểm tra từ vựng đã tồn tại
     boolean existsByWord(String word);
-	
+
+    boolean existsByWordIgnoreCase(String word);
     
+
 }

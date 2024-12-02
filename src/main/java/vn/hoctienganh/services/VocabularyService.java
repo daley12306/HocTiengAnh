@@ -20,5 +20,7 @@ public interface VocabularyService {
 	void validateVocabularyData(Vocabulary vocabulary);
 	
 	Vocabulary findById(Integer id);
+	
+	boolean isWordExists(String word);
 
 }

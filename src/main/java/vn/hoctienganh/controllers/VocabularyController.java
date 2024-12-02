@@ -77,8 +77,16 @@ public class VocabularyController {
 			@RequestParam(value = "image", required = false) MultipartFile image) {
 		
 		try {
+			// Kiểm tra từ vựng tồn tại TRƯỚC KHI tạo đối tượng vocabulary mới
+			String normalizedWord = word.trim();
+			if (vocabularyService.isWordExists(normalizedWord)) {
+				return ResponseEntity.badRequest()
+						.body("Từ vựng '" + normalizedWord + "' đã tồn tại trong hệ thống");
+			}
+			
+			// Chỉ tạo đối tượng vocabulary mới sau khi đã kiểm tra
 			Vocabulary vocabulary = new Vocabulary();
-			vocabulary.setWord(word);
+			vocabulary.setWord(normalizedWord);
 			vocabulary.setPronunciation(pronunciation);
 			vocabulary.setDefinition(definition);
 			vocabulary.setExample(example);
@@ -99,8 +107,8 @@ public class VocabularyController {
 			return ResponseEntity.ok(saved);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Lỗi: " + e.getMessage());
+			return ResponseEntity.internalServerError()
+					.body("Lỗi: khi thêm từ " + e.getMessage());
 		}
 	}
 
@@ -118,6 +126,12 @@ public class VocabularyController {
         Vocabulary existingVocab = vocabularyService.findById(id);
         if (existingVocab == null) {
             return ResponseEntity.notFound().build();
+        }
+
+        // Kiểm tra từ vựng tồn tại khi update (chỉ kiểm tra nếu từ thay đổi)
+        if (!word.equals(existingVocab.getWord()) && vocabularyService.isWordExists(word)) {
+            return ResponseEntity.badRequest()
+                    .body("Từ vựng '" + word + "' đã tồn tại trong hệ thống");
         }
 
         existingVocab.setWord(word);
@@ -142,7 +156,7 @@ public class VocabularyController {
         return ResponseEntity.ok(updated);
     } catch (Exception e) {
         e.printStackTrace();
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        return ResponseEntity.internalServerError()
                 .body("Lỗi khi cập nhật từ vựng: " + e.getMessage());
     }
 	}

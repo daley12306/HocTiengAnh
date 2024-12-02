@@ -1,7 +1,6 @@
 package vn.hoctienganh.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import vn.hoctienganh.entity.Vocabulary;
 import vn.hoctienganh.entity.Curriculum;
@@ -36,15 +35,18 @@ public class VocabularyServiceImpl implements VocabularyService {
 	@Override
 	public Vocabulary addVocabularyToCurriculum(Integer curriculumId, Vocabulary vocabulary) {
 		// Kiểm tra curriculum có tồn tại
-		if (!curriculumService.existsById(curriculumId)) {	
+		if (!curriculumService.existsById(curriculumId)) {    
 			throw new RuntimeException("Curriculum không tồn tại với id: " + curriculumId);
 		}
+		
+		String word = vocabulary.getWord().trim();
+        if (isWordExists(word)) {
+            throw new IllegalArgumentException("Từ vựng '" + word + "' đã tồn tại trong hệ thống");
+        }
+		
 		// Validate dữ liệu từ vựng
 		validateVocabularyData(vocabulary);
-		// Kiểm tra từ vựng đã tồn tại
-		if (vocabularyRepository.existsByWord(vocabulary.getWord())) {
-			throw new RuntimeException("Từ vựng đã tồn tại: " + vocabulary.getWord());
-		}
+		
 		String audioUrl = generateAudioUrl(vocabulary.getWord());
 		String imageUrl = generateImageUrl(vocabulary.getWord());
 		System.out.println("Generated Audio URL: " + audioUrl);
@@ -58,14 +60,20 @@ public class VocabularyServiceImpl implements VocabularyService {
 
 	@Override
 	public Vocabulary updateVocabulary(Integer id, Vocabulary vocabulary) {
+		// Validate input
+		if (id == null || vocabulary == null) {
+			throw new RuntimeException("Dữ liệu đầu vào không hợp lệ");
+		}
+		
 		Vocabulary existingVocabulary = vocabularyRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("Từ vựng không tồn tại với id: " + id));
+			
 		validateVocabularyData(vocabulary);
+		
 		existingVocabulary.setWord(vocabulary.getWord());
 		existingVocabulary.setDefinition(vocabulary.getDefinition());
 		existingVocabulary.setPronunciation(vocabulary.getPronunciation());
 		existingVocabulary.setExample(vocabulary.getExample());
-		
 		existingVocabulary.setAudio(vocabulary.getAudio());
 		existingVocabulary.setImage(vocabulary.getImage());
 		
@@ -122,5 +130,15 @@ public class VocabularyServiceImpl implements VocabularyService {
 		return vocabularyRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("Từ vựng không tồn tại với id: " + id));
 	}
+
+	@Override
+	public boolean isWordExists(String word) {
+		if (word == null) return false;
+        
+        // Chuẩn hóa từ và tìm kiếm không phân biệt chữ hoa/thường
+        String normalizedWord = word.trim().toLowerCase();
+        return vocabularyRepository.existsByWordIgnoreCase(normalizedWord);
+	}
+
 
 }
