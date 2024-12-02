@@ -2,7 +2,6 @@ package vn.hoctienganh.services;
 
 import java.util.List;
 
-
 import vn.hoctienganh.entity.User;
 
 public interface UserService {
@@ -22,17 +21,4 @@ public interface UserService {
     void deleteStudent(Long id);
     
     void saveUser(User user);
-   
-    
-    void updateUser(User user);
-    
-    String createAvatar(String fullName);
-    
-    boolean existsByEmail(String email);
-    
-    boolean existsByPhoneNumber(String phoneNumber);
-    boolean existsByUsernameAndIdNot(String username , Long id);
-    boolean existsByEmailAndIdNot(String email, Long id);   
-    boolean existsByPhoneNumberAndIdNot(String phoneNumber, Long id);
-    boolean existsByUsername(String username);
 }
