@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import vn.hoctienganh.entity.User;
 import vn.hoctienganh.models.UserModel;
 import vn.hoctienganh.services.UserService;
 
@@ -30,7 +31,7 @@ public class UserController {
 	   return "admin/add_student"; 
 	}
 	@PostMapping("/admin/users/add")
-	public String saveStudent(@ModelAttribute("user") UserModel user) {
+	public String saveStudent(@ModelAttribute("user") User user) {
 	    // Lưu dữ liệu vào database
 	    userService.saveUser(user);
 
@@ -42,25 +43,25 @@ public class UserController {
 	
 	// Lấy danh sách học viên
     @GetMapping("/list")
-    public List<UserModel> getAllStudents() {
+    public List<User> getAllStudents() {
         return userService.getAllStudents();
     }
 
     // Lấy thông tin học viên theo ID
     @GetMapping("/{id}")
-    public UserModel getStudentById(@PathVariable Long id) {
+    public User getStudentById(@PathVariable Long id) {
         return userService.getStudentById(id);
     }
 
     // Thêm học viên
     @PostMapping("/add")
-    public UserModel addStudent(@RequestBody UserModel student) {
+    public User addStudent(@RequestBody User student) {
         return userService.addStudent(student);
     }
 
     // Cập nhật học viên
     @PutMapping("/update/{id}")
-    public UserModel updateStudent(@PathVariable Long id, @RequestBody UserModel studentDetails) {
+    public User updateStudent(@PathVariable Long id, @RequestBody User studentDetails) {
         return userService.updateStudent(id, studentDetails);
     }
 
