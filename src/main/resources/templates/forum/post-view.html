@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout.html}">
 <head>
     <meta charset="UTF-8">
     <title>View Post</title>
@@ -180,8 +182,7 @@
 		
     </style>
 </head>
-<body>
-    <header th:replace="~{fragments/header}"></header>
+<body layout:fragment="content" >
     <div class="container mt-5">
         <div class="row">
         
@@ -386,7 +387,6 @@
     <!-- Bootstrap JS, Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
-<footer th:replace="~{fragments/footer}"></footer>
     <script>
         // Lắng nghe sự kiện click vào nút Edit
         document.getElementById('editPostButton').addEventListener('click', function() {
