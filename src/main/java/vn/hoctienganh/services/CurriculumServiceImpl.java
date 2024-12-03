@@ -58,4 +58,31 @@ public class CurriculumServiceImpl implements CurriculumService {
         return curriculumRepository.findCurriculumNamesByStudyRecordId(studyRecordId);
     }
 
+	@Override
+	public Curriculum findByName(String name) {
+		return curriculumRepository.findByName(name);
+	}
+
+	@Override
+	public Integer getCurriculumIdByName(String name) {
+		Curriculum curriculum = curriculumRepository.findByName(name);
+        return curriculum != null ? curriculum.getId() : null;
+	}
+
+	@Override
+	public List<Curriculum> getAllCurriculums() {
+		return curriculumRepository.findAll();
+	}
+
+	@Override
+	public boolean existsById(Integer id) {
+		return curriculumRepository.existsById(id);
+	}
+
+	@Override
+	public Curriculum findById(Integer id) {
+		Optional<Curriculum> curriculum = curriculumRepository.findById(id);
+        return curriculum.orElse(null);
+	}
+
 }
