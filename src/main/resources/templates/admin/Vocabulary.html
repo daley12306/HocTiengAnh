@@ -15,94 +15,236 @@
 	crossorigin="anonymous"></script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 <style>
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+/* Layout chính */
+main {
+    flex: 1 0 auto;
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 30px 20px;
+}
+
+.container {
+    max-width: 100% !important;
+    padding: 0 15px;
+    margin: 0;
+}
+
+.container-fluid {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+/* Header và Footer */
+header, footer {
+    width: 100%;
+    background-color: #FDCEDF; /* Màu nền hồng nhạt */
+    color: #333;
+    text-align: center;
+    padding: 20px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+header {
+    margin-bottom: 30px;
+}
+
+footer {
+    flex-shrink: 0;
+    width: 100%;
+    background-color: #FDCEDF;
+    color: #333;
+    text-align: center;
+    padding: 20px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    height: 60px;
+}
+
+/* Card styles */
+.card {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    border: none;
+    margin: 0;
+    width: 100%;
+}
+
+.card-header {
+    background-color: #FFE5EC; /* Màu hồng nhạt hơn cho header của card */
+    border-bottom: 1px solid #FFD1DC;
+}
+
+/* Grid layout */
+.row {
+    margin: 0;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.col-md-3 {
+    width: 250px;
+    min-width: 250px;
+    padding: 0 10px;
+}
+
+.col-md-9 {
+    width: calc(100% - 250px);
+    padding: 0 10px;
+}
+
+/* Curriculum list */
 .curriculum-item {
-	cursor: pointer;
-	padding: 10px;
-	margin: 5px 0;
-	border: 1px solid #ddd;
-	border-radius: 5px;
+    cursor: pointer;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #723838;
+    border-radius: 5px;
 }
 
 .curriculum-item:hover {
-	background-color: #f8f9fa;
+    background-color: #f8f9fa;
 }
 
 .curriculum-item.active {
-	background-color: #0d6efd;
-	color: white;
+    background-color: #0d6efd;
+    color: white;
 }
 
+/* Vocabulary table */
+.vocab-table {
+    width: 100%;
+    min-width: 800px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.vocab-table th, 
+.vocab-table td {
+    padding: 12px 8px;
+}
+
+/* Column widths */
+.vocab-table {
+    --col-id-width: 5%;
+    --col-word-width: 12%;
+    --col-pron-width: 10%;
+    --col-def-width: 20%;
+    --col-example-width: 20%;
+    --col-audio-width: 12%;
+    --col-image-width: 12%;
+    --col-action-width: 9%;
+}
+
+.vocab-table th:nth-child(1), .vocab-table td:nth-child(1) { width: var(--col-id-width); }
+.vocab-table th:nth-child(2), .vocab-table td:nth-child(2) { width: var(--col-word-width); }
+.vocab-table th:nth-child(3), .vocab-table td:nth-child(3) { width: var(--col-pron-width); }
+.vocab-table th:nth-child(4), .vocab-table td:nth-child(4) { width: var(--col-def-width); }
+.vocab-table th:nth-child(5), .vocab-table td:nth-child(5) { width: var(--col-example-width); }
+.vocab-table th:nth-child(6), .vocab-table td:nth-child(6) { width: var(--col-audio-width); }
+.vocab-table th:nth-child(7), .vocab-table td:nth-child(7) { width: var(--col-image-width); }
+.vocab-table th:nth-child(8), .vocab-table td:nth-child(8) { width: var(--col-action-width); }
+
+/* Preview containers */
 .preview-container {
-	margin-top: 10px;
+    margin-top: 10px;
 }
 
-.preview-container img {
-	max-width: 200px;
-	max-height: 200px;
-	object-fit: contain;
+.preview-container img,
+.vocab-table img {
+    max-width: 200px;
+    max-height: 200px;
+    object-fit: contain;
 }
 
 .vocab-table img {
-	max-width: 100px;
-	max-height: 100px;
-	object-fit: contain;
+    max-width: 100px;
+    max-height: 100px;
 }
 
+/* Audio controls */
 .audio-control {
-	max-width: 200px;
+    max-width: 200px;
+}
+
+/* Buttons */
+.btn-warning, .btn-danger {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    color: white;
 }
 
 .btn-warning {
-	background-color: #ffa500; /* Màu cam */
-	border-color: #ffa500;
-	color: white;
-}
-
-.btn-danger {
-	background-color: #dc3545; /* Màu đỏ */
-	border-color: #dc3545;
-	color: white;
+    background-color: #ffa500;
+    border-color: #ffa500;
 }
 
 .btn-warning:hover {
-	background-color: #ff8c00; /* Màu cam đậm khi hover */
-	border-color: #ff8c00;
+    background-color: #ff8c00;
+    border-color: #ff8c00;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
 }
 
 .btn-danger:hover {
-	background-color: #c82333; /* Màu đỏ đậm khi hover */
-	border-color: #bd2130;
-}
-
-.btn-warning, .btn-danger {
-	display: inline-flex;
-	align-items: center;
-	gap: 5px;
-	padding: 5px 10px;
+    background-color: #c82333;
+    border-color: #bd2130;
 }
 
 .btn-warning i, .btn-danger i {
-	margin-right: 3px;
+    margin-right: 3px;
 }
 
+/* Image interactions */
 .clickable-image {
-	cursor: pointer;
-	transition: transform 0.2s;
+    cursor: pointer;
+    transition: transform 0.2s;
 }
 
 .clickable-image:hover {
-	transform: scale(1.05);
+    transform: scale(1.05);
 }
 
 #modalImage {
-	object-fit: contain;
+    object-fit: contain;
+}
+
+/* Thêm wrapper cho nội dung chính */
+.content-wrapper {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding-bottom: 0;
 }
 </style>
 </head>
 <body>
 	<header>
-		<div th:replace="~{admin/fragments/header::header}"></div>
+
+		<h1>Quản lý từ vựng</h1>
 	</header>
+	<div class="content-wrapper">
 	<main class="container">
 		<section>
 			<div class="container-fluid mt-4">
