@@ -108,8 +108,6 @@ public class VocabularyController {
 
 	@GetMapping("/vocabulary")
 	public String getVocabulary(Model model) {
-//        var vocabularyList = vocabularyService.getAllVocabularies();
-//        vocabularyService.updateVocabularyMatches(vocabularyList);
 		List<Vocabulary> vocabularyList = vocabularyService.getAllVocabularies();
 
 		// Lọc ra các từ vựng không null trước khi cập nhật matches
