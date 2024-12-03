@@ -25,4 +25,9 @@ public class Curriculum {
     @OneToMany(mappedBy = "curriculum", cascade = CascadeType.ALL)
     private List<Vocabulary> vocabularies;
     // Getters and Setters
+    
+    @Override
+	public String toString() {
+		return "Curriculum{" + "id = " + id + ", name = '" + name + '\'' + '}';
+	}
 }

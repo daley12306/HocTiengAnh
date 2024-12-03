@@ -42,4 +42,15 @@ public interface VocabularyService {
     void updateVocabularyMatches(List<Vocabulary> vocabularyList);
     String[] getRandomExamples();
     String[] getRandomExampleWithMatch();
+    
+	// Thêm mới từ vựng.
+	Vocabulary addVocabularyToCurriculum(Integer curriculumId, Vocabulary vocabulary);
+	// Cập nhật từ vựng dựa trên ID.
+	Vocabulary updateVocabulary(Integer id, Vocabulary vocabulary);
+
+	void validateVocabularyData(Vocabulary vocabulary);
+	
+	Vocabulary findById(Integer id);
+	
+	boolean isWordExists(String word);
 }
