@@ -20,4 +20,8 @@ public class HomeController {
 	public String dictionary() {
 		return "dictionary";
 	}
+	@GetMapping("/admin/home")
+	public String home_admin() {
+		return "admin/home_admin";
+	}
 }

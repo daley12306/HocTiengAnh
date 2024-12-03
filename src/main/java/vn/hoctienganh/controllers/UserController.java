@@ -50,6 +50,7 @@ public class UserController {
 		 }
 	     // Xử lý cập nhật thông tin người dùng
 		 user.setId(id);
+		 model.addAttribute("successMessage", "Sửa thông tin thành công!");
 	     userService.updateUser(user);
 	     
 	     return "redirect:/admin/user/profile/" + id; // Quay lại trang profile của người dùng
@@ -122,7 +123,9 @@ public class UserController {
     	        return "admin/edit_student"; 
     	 }
     	user.setId(id); // Gán lại id cho đối tượng user
-    	        userService.updateStudent(id, user); // Cập nhật người dùng trong DB
+    	 model.addAttribute("successMessage", "Sửa thông tin thành công!");
+    	userService.updateStudent(id, user); // Cập nhật người dùng trong DB
+    	        
     	        return "redirect:/admin/profile" ; // Chuyển hướng về trang danh sách người dùng
     	    
     }
