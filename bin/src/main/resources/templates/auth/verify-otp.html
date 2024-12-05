@@ -141,7 +141,6 @@
     </style>
 </head>
 <body>
-    <div th:replace="fragments/header :: header"></div>
     <div class="content">
         <div class="otp-container">
             <div class="logo">
@@ -177,8 +176,6 @@
             <div class="success-message" th:if="${success}" th:text="${success}"></div>
         </div>
     </div>
-    <div th:replace="fragments/footer :: footer"></div>
-
     <script>
         // Xử lý input OTP
         const inputs = document.querySelectorAll('.otp-input');
