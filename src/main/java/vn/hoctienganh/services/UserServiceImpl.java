@@ -5,6 +5,7 @@ package vn.hoctienganh.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import vn.hoctienganh.entity.User;
@@ -15,6 +16,8 @@ public class UserServiceImpl implements UserService{
 	@Autowired
     private UserRepository studentRepository;
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	@Override
 	public List<User> getAllStudents() {
@@ -28,6 +31,8 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public User addStudent(User student) {
+		String encodedPassword = passwordEncoder.encode(student.getPassword());
+        student.setPassword(encodedPassword);
 	    String avatar = createAvatar(student.getFullName());  // Tạo avatar từ fullName
         student.setAvatar(avatar);
 	    return studentRepository.save(student);
@@ -38,7 +43,8 @@ public class UserServiceImpl implements UserService{
 		User existingStudent = getStudentById(id);
 	        existingStudent.setFullName(studentDetails.getFullName());
 	        existingStudent.setUsername(studentDetails.getUsername());
-	        existingStudent.setPassword(studentDetails.getPassword());
+	        String encodedPassword = passwordEncoder.encode(studentDetails.getPassword());
+	        existingStudent.setPassword(encodedPassword);
 	        existingStudent.setEmail(studentDetails.getEmail());
 	        existingStudent.setPhoneNumber(studentDetails.getPhoneNumber());
 	        existingStudent.setAddress(studentDetails.getAddress());

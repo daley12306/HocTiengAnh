@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/")
 public class HomeController {
+	@GetMapping
+	public String home() {
+		return "redirect:/home";
+	}
 	
 	@GetMapping("/home")
 	public String index() {
@@ -19,5 +23,9 @@ public class HomeController {
 	@GetMapping("/dictionary")
 	public String dictionary() {
 		return "dictionary";
+	}
+	@GetMapping("/admin/home")
+	public String home_admin() {
+		return "admin/home_admin";
 	}
 }

@@ -127,7 +127,11 @@
         <a href="/admin/profile" class="btn btn-secondary mt-3">Back </a>
     </div>
 </form>
+	
     </div>
+    <div th:if="${successMessage}" class="alert alert-success mt-3">
+            <span th:text="${successMessage}"></span>
+        </div>
 </div>
 </body>
 </html>

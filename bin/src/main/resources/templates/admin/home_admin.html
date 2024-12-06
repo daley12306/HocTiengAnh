@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Chủ - Với Thanh Điều Hướng Bên Trái</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+<style>
+        /* Đặt chiều cao của sidebar là 100% chiều cao cửa sổ */
+        .sidebar {
+            height: 100vh; /* Đảm bảo chiều cao đầy đủ */
+            position: fixed; /* Để thanh điều hướng luôn ở vị trí cố định */
+            top: 0;
+            left: 0;
+            width: 250px; /* Bạn có thể điều chỉnh chiều rộng của sidebar */
+        	background-color: #f8bbd0;
+        }
+
+        /* Điều chỉnh nội dung chính để không bị che khuất bởi sidebar */
+        main {
+            margin-left: 250px; /* Đảm bảo phần thân chính không bị che khuất bởi sidebar */
+            padding: 20px;
+        }
+
+        /* Các liên kết trong sidebar */
+        .nav-link {
+            font-size: 18px;
+        }
+
+        /* Thêm hiệu ứng hover cho các mục trong sidebar */
+        .nav-link:hover {
+            background-color: #e91e63;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Thanh điều hướng bên trái -->
+            <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+                <div class="position-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">
+                                Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/profile">
+                                Quản lý Tài Khoản
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                Cài đặt
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                Đăng xuất
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Phần thân chính -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-4">
+                <h1>Chào mừng đến với trang chủ!</h1>
+                <p></p>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+	
+</body>
+</html>
