@@ -28,7 +28,7 @@ public class AuthController {
 				if (user.isAdmin())
 					return "redirect:/admin/home";
 				else
-					return "redirect:/user/home";
+					return "redirect:/user/study";
 			}
 		}
 		return "auth/login";
