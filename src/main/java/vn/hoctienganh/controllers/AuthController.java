@@ -83,6 +83,7 @@ public class AuthController {
 		user.setFullName(fullName);
 		user.setAddress(address);
 		user.setPhoneNumber(phoneNumber);
+		user.setIsAdmin(false);
 
 		Response result = authService.register(user);
 		
